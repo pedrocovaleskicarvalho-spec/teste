@@ -1,1 +1,331 @@
-
+/* =========================================================
+   EcoProject — base de estilos
+   Paleta pode ser trocada depois: basta editar as variáveis
+   abaixo em :root.
+   ========================================================= */
+ 
+:root {
+  /* Cores principais (paleta provisória — troquem à vontade) */
+  --color-bg: #fbeda6;
+  --color-bg-soft: #f4f4f4;
+  --color-primary: #1d7a6b;
+  --color-primary-dark: #145349;
+  --color-primary-light: #e4f3ef;
+  --color-accent: #2f6fed;
+  --color-dark-box: #1b2340;
+  --color-text: #1a2420;
+  --color-text-muted: #5b6b66;
+  --color-white: #ffffff;
+  --color-border: #dbe6e2;
+ 
+  /* Tipografia */
+  --font-heading: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+ 
+  /* Espaçamentos */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --gap: 16px;
+}
+ 
+* {
+  box-sizing: border-box;
+}
+ 
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 25%, var(--color-bg-soft) 55%);
+}
+ 
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+ 
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+ 
+/* ===== BOTÕES ===== */
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+ 
+.btn:hover {
+  opacity: 0.9;
+}
+ 
+.btn:active {
+  transform: scale(0.98);
+}
+ 
+.btn:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+ 
+.btn-ghost {
+  background: var(--color-white);
+  color: var(--color-text);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+ 
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  width: 100%;
+}
+ 
+.btn-light {
+  background: var(--color-white);
+  color: var(--color-dark-box);
+  width: 100%;
+}
+ 
+.arrow {
+  font-weight: 700;
+}
+ 
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: var(--color-white);
+}
+ 
+.badge {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 999px;
+}
+ 
+.hero-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+ 
+.hero-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #c7d6d1;
+  line-height: 1.5;
+  max-width: 320px;
+}
+ 
+/* ===== SEÇÕES ===== */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+ 
+.section-title {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+ 
+.section-title-accent {
+  color: var(--color-primary);
+}
+ 
+/* ===== CARDS DE RECURSOS ===== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+ 
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+ 
+.card:hover {
+  border-color: var(--color-primary);
+}
+ 
+.card-icon {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+ 
+.card-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+ 
+.card-desc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+ 
+/* ===== POR QUE ESCOLHER ===== */
+.highlight-box {
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+}
+ 
+.highlight-title {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+ 
+.check-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+ 
+.check-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+ 
+.check-icon {
+  color: #7fe0c8;
+  font-weight: 700;
+}
+ 
+/* ===== TEMPLATES ===== */
+.template-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+ 
+.template-item {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+ 
+.template-item:hover {
+  border-color: var(--color-primary);
+}
+ 
+.template-icon {
+  font-size: 1.4rem;
+}
+ 
+.template-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+ 
+.template-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+ 
+.template-desc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+ 
+/* ===== CTA FINAL ===== */
+.cta-box {
+  background: var(--color-dark-box);
+  color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+ 
+.cta-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+ 
+.cta-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #c9cbe0;
+}
+ 
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+ 
+/* ===== RESPONSIVO ===== */
+@media (max-width: 360px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+/* Respeita usuários que preferem menos animação */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+ 
