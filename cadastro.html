@@ -2,84 +2,59 @@
 <html lang="pt-br">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Criar Conta</title>
-
-<link rel="stylesheet" href="cadastro.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - EcoProject</title>
+    <link rel="stylesheet" href="cadastro.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<a href="index.html" class="voltar">← Voltar</a>
+        <a href="index.html" class="voltar">← Voltar</a>
 
-<div class="logo">
+        <div class="logo">
+            <h1>EcoProject</h1>
+            <p>Planejamentos de Projetos Sustentáveis</p>
+        </div>
 
-<h1>EcoProject</h1>
+        <div class="tabs">
+            <button type="button" onclick="window.location='login.html'">Entrar</button>
+            <button type="button" class="ativo">Criar conta</button>
+        </div>
 
-<p>Planejamentos de Projetos Sustentáveis</p>
+        <div class="card">
+            <h2>Criar sua conta</h2>
+            <p>Preencha os dados abaixo</p>
 
-</div>
+            <form>
+                <div class="input-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" placeholder="Seu nome">
+                </div>
 
-<div class="tabs">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="Seu@email">
+                </div>
 
-<button onclick="window.location='login.html'">
-Entrar
-</button>
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="********">
+                </div>
 
-<button class="ativo">
-Criar conta
-</button>
+                <h3>Tipo de conta</h3>
+                <div class="tipo">
+                    <button type="button" class="selecionado">Aluno</button>
+                    <button type="button">Professor</button>
+                </div>
 
-</div>
+                <button type="submit" class="criar">Criar Conta</button>
+            </form>
+        </div>
 
-<div class="card">
-
-<h2>Criar sua conta</h2>
-
-<p>Preencha os dados abaixo</p>
-
-<label>Nome Completo</label>
-
-<input type="text" placeholder="Seu nome">
-
-<label>E-mail</label>
-
-<input type="email" placeholder="Seu@email">
-
-<label>Senha</label>
-
-<input type="password" placeholder="********">
-
-<h3>Tipo de conta</h3>
-
-<div class="tipo">
-
-<button class="selecionado">
-Aluno
-</button>
-
-<button>
-Professor
-</button>
-
-</div>
-
-<button class="criar">
-
-Criar Conta
-
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </body>
 
