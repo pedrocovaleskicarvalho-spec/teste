@@ -157,3 +157,22 @@ margin:20px 0;
 color:#777;
 
 }
+input{
+    width:100%;
+    padding:16px;
+    margin:10px 0 20px;
+    border:none;
+    background:#eee;
+    border-radius:10px;
+    font-size:18px;
+    box-sizing:border-box;
+}
+
+    *{
+    box-sizing:border-box;
+}
+input,
+.entrar,
+.google{
+    box-sizing:border-box;
+}
