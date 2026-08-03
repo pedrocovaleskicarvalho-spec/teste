@@ -2,35 +2,41 @@
 const btnEntrar = document.getElementById("btn-entrar");
 const btnComecar = document.getElementById("btn-comecar");
 const btnCriarConta = document.getElementById("btn-criar-conta");
+
 const btn = document.getElementById("btnEnviar");
 const email = document.getElementById("email");
 
-btn.addEventListener("click", () => {
+// Página de recuperação de senha
+if (btn && email) {
+    btn.addEventListener("click", () => {
 
-    if(email.value.trim() === ""){
-        alert("Digite seu e-mail.");
-        return;
-    }
+        if (email.value.trim() === "") {
+            alert("Digite seu e-mail.");
+            return;
+        }
 
-    // Aqui futuramente você enviará o código pelo backend
+        // Aqui futuramente você enviará o código pelo backend
+        localStorage.setItem("emailRecuperacao", email.value);
 
-    localStorage.setItem("emailRecuperacao", email.value);
+        window.location.href = "verificar-codigo.html";
+    });
+}
 
-    window.location.href = "verificar-codigo.html";
-});
-
+// Botão Entrar
 if (btnEntrar) {
     btnEntrar.addEventListener("click", () => {
         window.location.href = "login.html";
     });
 }
 
+// Botão Começar Agora
 if (btnComecar) {
     btnComecar.addEventListener("click", () => {
         window.location.href = "login.html";
     });
 }
 
+// Botão Criar Conta
 if (btnCriarConta) {
     btnCriarConta.addEventListener("click", () => {
         window.location.href = "cadastro.html";
@@ -57,17 +63,11 @@ if (btnEnviarCodigo) {
         const email = document.getElementById("email").value;
 
         const resposta = await fetch("http://localhost:3000/esqueci-senha", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
-            body: JSON.stringify({
-                email
-            })
-
+            body: JSON.stringify({ email })
         });
 
         const dados = await resposta.json();
@@ -147,9 +147,7 @@ if (btnReenviar) {
                 "Content-Type": "application/json"
             },
 
-            body: JSON.stringify({
-                email
-            })
+            body: JSON.stringify({ email })
 
         });
 
