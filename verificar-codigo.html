@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Código</title>
+    <link rel="stylesheet" href="verificar-codigo.css">
+</head>
+<body>
+
+<div class="container">
+
+    <a href="esqueceu-senha.html" class="voltar">← Voltar</a>
+
+    <div class="card">
+
+        <div class="icone">✉</div>
+
+        <h2>Verifique seu e-mail</h2>
+
+        <p>
+            Código enviado para
+            <br>
+            <strong id="emailUsuario"></strong>
+        </p>
+
+        <label>Código (6 dígitos)</label>
+
+        <input
+            type="text"
+            id="codigo"
+            maxlength="6"
+            placeholder="000000"
+        >
+
+        <button class="entrar">
+            Verificar Código
+        </button>
+
+        <p>Não recebeu?</p>
+
+        <a href="#">Reenviar Código</a>
+
+    </div>
+
+</div>
+
+<script>
+const email = localStorage.getItem("emailRecuperacao");
+document.getElementById("emailUsuario").textContent = email || "";
+</script>
+
+</body>
+</html>
