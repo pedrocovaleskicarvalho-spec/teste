@@ -2,6 +2,22 @@
 const btnEntrar = document.getElementById("btn-entrar");
 const btnComecar = document.getElementById("btn-comecar");
 const btnCriarConta = document.getElementById("btn-criar-conta");
+const btn = document.getElementById("btnEnviar");
+const email = document.getElementById("email");
+
+btn.addEventListener("click", () => {
+
+    if(email.value.trim() === ""){
+        alert("Digite seu e-mail.");
+        return;
+    }
+
+    // Aqui futuramente você enviará o código pelo backend
+
+    localStorage.setItem("emailRecuperacao", email.value);
+
+    window.location.href = "verificar-codigo.html";
+});
 
 if (btnEntrar) {
     btnEntrar.addEventListener("click", () => {
