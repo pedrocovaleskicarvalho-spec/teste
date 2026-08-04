@@ -23,7 +23,7 @@ body {
     display: inline-block;
     text-decoration: none;
     color: #6b5353;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     margin-bottom: 15px;
 }
@@ -40,8 +40,8 @@ body {
 }
 
 .logo p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
 }
 
 .tabs {
@@ -54,10 +54,10 @@ body {
 
 .tabs button {
     flex: 1;
-    padding: 14px;
+    padding: 18px;
     border: none;
     background: transparent;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     color: #333;
     cursor: pointer;
@@ -76,13 +76,13 @@ body {
 }
 
 .card h2 {
-    font-size: 22px;
+    font-size: 25px;
     color: #111;
     margin-bottom: 4px;
 }
 
 .card > p {
-    font-size: 14px;
+    font-size: 16px;
     color: #666;
     margin-bottom: 20px;
 }
@@ -95,13 +95,12 @@ label {
 
 input {
     width: 100%;
-    padding: 14px;
-    margin: 8px 0 16px 0;
-    border: 1px solid #eee;
-    background: #f4f4f4;
+    padding: 18px;
+    margin: 10px 0 20px 0;
+    border: none;
+    background: #eee;
     border-radius: 10px;
-    font-size: 15px;
-    outline: none;
+    font-size: 18px;
 }
 
 input:focus {
