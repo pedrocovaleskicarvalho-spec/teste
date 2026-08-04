@@ -115,24 +115,6 @@ h3 {
     color: #111;
 }
 
-.tipo {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0 20px 0;
-}
-
-.tipo button {
-    width: 180px;
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    background: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
 .selecionado {
     background: #11153d !important;
