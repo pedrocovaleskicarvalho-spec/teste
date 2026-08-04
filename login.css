@@ -181,24 +181,6 @@ input,
 
 
 
-body {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
- 
-body.pagina-visivel {
-  opacity: 1;
-  transform: translateY(0);
-}
- 
-body.pagina-saindo {
-  opacity: 0;
-  transform: translateY(-6px);
-}
- 
-
-
 
 
 
