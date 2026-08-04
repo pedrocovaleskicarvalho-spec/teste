@@ -69,6 +69,49 @@
         }
     </script>
  
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
+    authDomain: "tungproject-8f6cf.firebaseapp.com",
+    projectId: "tungproject-8f6cf",
+    storageBucket: "tungproject-8f6cf.firebasestorage.app",
+    messagingSenderId: "602713548775",
+    appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.querySelector('form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const tipo = document.getElementById('tipoConta').value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+      const uid = userCredential.user.uid;
+
+      await setDoc(doc(db, "usuarios", uid), {
+        nome: nome,
+        email: email,
+        tipo: tipo
+      });
+
+      window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
+    } catch (erro) {
+      alert("Erro ao criar conta: " + erro.message);
+    }
+  });
+</script>
+
 </body>
  
 </html>
