@@ -5,8 +5,8 @@ font-family:Arial;
 
 background:linear-gradient(
 180deg,
-#11153d,
-#caffc2
+#e8d3c1,
+#ddcec2
 );
 
 height:100vh;
@@ -25,7 +25,7 @@ width:380px;
 
 .voltar{
 
-color:#00e676;
+color: #6b5353;
 text-decoration:none;
 font-size:22px;
 
@@ -40,7 +40,7 @@ margin:30px 0;
 
 .logo h1{
 
-color:#00e676;
+color:#6b5353;
 
 }
 
@@ -114,7 +114,7 @@ width:100%;
 
 padding:15px;
 
-background:#00bb37;
+background:#6b5353;
 
 color:white;
 
