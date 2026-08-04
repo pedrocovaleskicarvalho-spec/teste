@@ -6,52 +6,95 @@
 <title>Entrar</title>
 <link rel="stylesheet" href="login.css">
 </head>
-
+ 
 <body>
-
+ 
 <div class="container">
-
+ 
 <a href="index.html" class="voltar">← Voltar</a>
-
+ 
 <div class="logo">
 <h1>TungProject</h1>
 <p>Planejamentos de Projetos Estáveis</p>
 </div>
-
+ 
 <div class="tabs">
 <button class="ativo">Entrar</button>
 <button onclick="window.location='cadastro.html'">
 Criar conta
 </button>
 </div>
-
+ 
 <div class="card">
-
+ 
 <h2>Bem-vindo de volta!</h2>
-
+ 
 <p>Entre com suas credenciais</p>
-
+ 
 <label>E-mail</label>
-<input type="email" placeholder="Seu@email">
-
+<input type="email" id="email" placeholder="Seu@email">
+ 
 <label>Senha</label>
-<input type="password" placeholder="********">
-
+<input type="password" id="senha" placeholder="********">
+ 
 <div class="esqueci_a_senha"> <a href="esqueceu-senha.html">Esqueceu a senha?</a> </div>
-
-<button class="entrar">Entrar</button>
-
+ 
+<button class="entrar" id="btnEntrar">Entrar</button>
+ 
 <div class="linha">
 <span>Ou entre com</span>
 </div>
-
+ 
 <button class="google">
 Continuar com Google
 </button>
-
+ 
 </div>
-
+ 
 </div>
-
+ 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+ 
+  const firebaseConfig = {
+    apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
+    authDomain: "tungproject-8f6cf.firebaseapp.com",
+    projectId: "tungproject-8f6cf",
+    storageBucket: "tungproject-8f6cf.firebasestorage.app",
+    messagingSenderId: "602713548775",
+    appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
+  };
+ 
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+ 
+  document.getElementById('btnEntrar').addEventListener('click', async function (e) {
+    e.preventDefault();
+ 
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+ 
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+      const uid = userCredential.user.uid;
+ 
+      const docSnap = await getDoc(doc(db, "usuarios", uid));
+ 
+      if (docSnap.exists()) {
+        const tipo = docSnap.data().tipo;
+        window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
+      } else {
+        alert("Usuário autenticado, mas sem dados salvos no banco.");
+      }
+    } catch (erro) {
+      alert("Erro ao entrar: " + erro.message);
+    }
+  });
+</script>
+ 
 </body>
 </html>
+ 
