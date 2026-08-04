@@ -137,5 +137,31 @@ h3 {
     background: #574343;
 }
 
+ 
+/* ===== Adicionado: seleção de tipo de conta (aluno/professor) ===== */
+.tipo-conta {
+    display: flex;
+    gap: 10px;
+    margin: 8px 0 16px 0;
+}
+ 
+.tipo-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #eee;
+    background: #f4f4f4;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+ 
+.tipo-btn.ativo {
+    background: #6b5353;
+    color: #ffffff;
+    border-color: #6b5353;
+}
 
 
