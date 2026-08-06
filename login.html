@@ -1,100 +1,198 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+ 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entrar</title>
-<link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tungrpoect</title>
+    <link rel="stylesheet" href="login.css">
 </head>
  
 <body>
  
-<div class="container">
+    <div class="container">
  
-<a href="index.html" class="voltar">← Voltar</a>
+        <a href="index.html" class="voltar">← Voltar</a>
  
-<div class="logo">
-<h1>TungProject</h1>
-<p>Planejamentos de Projetos Estáveis</p>
-</div>
+        <div class="logo">
+            <h1>TungProject</h1>
+            <p>Planejamentos de Projetos Estáveis</p>
+        </div>
  
-<div class="tabs">
-<button class="ativo">Entrar</button>
-<button onclick="window.location='cadastro.html'">
-Criar conta
-</button>
-</div>
+        <div class="tabs">
+            <button type="button" id="tabLogin" class="ativo" onclick="mostrarForm('login')">Entrar</button>
+            <button type="button" id="tabCadastro" onclick="mostrarForm('cadastro')">Criar conta</button>
+        </div>
  
-<div class="card">
+        <!-- CARD DE LOGIN -->
+        <div class="card" id="cardLogin">
  
-<h2>Bem-vindo de volta!</h2>
+            <h2>Bem-vindo de volta!</h2>
+            <p>Entre com suas credenciais</p>
  
-<p>Entre com suas credenciais</p>
+            <label>E-mail</label>
+            <input type="email" id="emailLogin" placeholder="Seu@email">
  
-<label>E-mail</label>
-<input type="email" id="email" placeholder="Seu@email">
+            <label>Senha</label>
+            <input type="password" id="senhaLogin" placeholder="********">
  
-<label>Senha</label>
-<input type="password" id="senha" placeholder="********">
+            <div class="esqueci_a_senha"> <a href="esqueceu-senha.html">Esqueceu a senha?</a> </div>
  
-<div class="esqueci_a_senha"> <a href="esqueceu-senha.html">Esqueceu a senha?</a> </div>
+            <button class="entrar" id="btnEntrar">Entrar</button>
  
-<button class="entrar" id="btnEntrar">Entrar</button>
+            <div class="linha">
+                <span>Ou entre com</span>
+            </div>
  
-<div class="linha">
-<span>Ou entre com</span>
-</div>
+            <button class="google">
+                Continuar com Google
+            </button>
  
-<button class="google">
-Continuar com Google
-</button>
+        </div>
  
-</div>
+        <!-- CARD DE CADASTRO -->
+        <div class="card" id="cardCadastro" style="display:none">
  
-</div>
+            <h2>Criar sua conta</h2>
+            <p>Preencha os dados abaixo</p>
  
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+            <form id="formCadastro">
+                <div class="input-group">
+                    <label for="nomeCadastro">Nome Completo</label>
+                    <input type="text" id="nomeCadastro" placeholder="Seu nome">
+                </div>
  
-  const firebaseConfig = {
-    apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
-    authDomain: "tungproject-8f6cf.firebaseapp.com",
-    projectId: "tungproject-8f6cf",
-    storageBucket: "tungproject-8f6cf.firebasestorage.app",
-    messagingSenderId: "602713548775",
-    appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
-  };
+                <div class="input-group">
+                    <label for="emailCadastro">E-mail</label>
+                    <input type="email" id="emailCadastro" placeholder="Seu@email">
+                </div>
  
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+                <div class="input-group">
+                    <label for="senhaCadastro">Senha</label>
+                    <input type="password" id="senhaCadastro" placeholder="********">
+                </div>
  
-  document.getElementById('btnEntrar').addEventListener('click', async function (e) {
-    e.preventDefault();
+                <div class="input-group">
+                    <label>Tipo de conta</label>
+                    <div class="tipo-conta">
+                        <button type="button" class="tipo-btn ativo" data-tipo="aluno" onclick="selecionarTipo(this)">Aluno</button>
+                        <button type="button" class="tipo-btn" data-tipo="professor" onclick="selecionarTipo(this)">Professor</button>
+                    </div>
+                    <input type="hidden" id="tipoContaCadastro" value="aluno">
+                </div>
  
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
+                <button type="submit" class="criar">Criar Conta</button>
+            </form>
  
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-      const uid = userCredential.user.uid;
+        </div>
  
-      const docSnap = await getDoc(doc(db, "usuarios", uid));
+    </div>
  
-      if (docSnap.exists()) {
-        const tipo = docSnap.data().tipo;
-        window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
-      } else {
-        alert("Usuário autenticado, mas sem dados salvos no banco.");
-      }
-    } catch (erro) {
-      alert("Erro ao entrar: " + erro.message);
-    }
-  });
-</script>
+    <script>
+        // Alterna entre os cards de login e cadastro sem trocar de página
+        function mostrarForm(tipo) {
+            document.getElementById('tabLogin').classList.remove('ativo');
+            document.getElementById('tabCadastro').classList.remove('ativo');
+ 
+            if (tipo === 'login') {
+                document.getElementById('cardLogin').style.display = 'block';
+                document.getElementById('cardCadastro').style.display = 'none';
+                document.getElementById('tabLogin').classList.add('ativo');
+            } else {
+                document.getElementById('cardLogin').style.display = 'none';
+                document.getElementById('cardCadastro').style.display = 'block';
+                document.getElementById('tabCadastro').classList.add('ativo');
+            }
+        }
+ 
+        // Controla qual botão (Aluno/Professor) está selecionado no cadastro
+        function selecionarTipo(botaoClicado) {
+            document.querySelectorAll('.tipo-btn').forEach(function (btn) {
+                btn.classList.remove('ativo');
+            });
+            botaoClicado.classList.add('ativo');
+            document.getElementById('tipoContaCadastro').value = botaoClicado.dataset.tipo;
+        }
+    </script>
+ 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword
+        } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+ 
+        const firebaseConfig = {
+            apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
+            authDomain: "tungproject-8f6cf.firebaseapp.com",
+            projectId: "tungproject-8f6cf",
+            storageBucket: "tungproject-8f6cf.firebasestorage.app",
+            messagingSenderId: "602713548775",
+            appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
+        };
+ 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+ 
+        // ===== LOGIN =====
+        document.getElementById('btnEntrar').addEventListener('click', async function (e) {
+            e.preventDefault();
+ 
+            const email = document.getElementById('emailLogin').value;
+            const senha = document.getElementById('senhaLogin').value;
+ 
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+                const uid = userCredential.user.uid;
+ 
+                const docSnap = await getDoc(doc(db, "usuarios", uid));
+ 
+                if (docSnap.exists()) {
+                    const tipo = docSnap.data().tipo;
+                    window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
+                } else {
+                    alert("Usuário autenticado, mas sem dados salvos no banco.");
+                }
+            } catch (erro) {
+                alert("Erro ao entrar: " + erro.message);
+            }
+        });
+ 
+        // ===== CADASTRO =====
+        document.getElementById('formCadastro').addEventListener('submit', async function (e) {
+            e.preventDefault();
+ 
+            const nome = document.getElementById('nomeCadastro').value;
+            const email = document.getElementById('emailCadastro').value;
+            const senha = document.getElementById('senhaCadastro').value;
+            const tipo = document.getElementById('tipoContaCadastro').value;
+ 
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+                const uid = userCredential.user.uid;
+ 
+                await setDoc(doc(db, "usuarios", uid), {
+                    nome: nome,
+                    email: email,
+                    tipo: tipo
+                });
+ 
+                window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
+            } catch (erro) {
+                alert("Erro ao criar conta: " + erro.message);
+            }
+        });
+    </script>
  
 </body>
+ 
 </html>
  
