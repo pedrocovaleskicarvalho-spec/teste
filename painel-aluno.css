@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f6f2ec;
+    color: #222;
+}
+ 
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+ 
+/* ===== SIDEBAR ===== */
+ 
+.sidebar {
+    width: 240px;
+    background: #6b5353;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px 18px;
+    flex-shrink: 0;
+}
+ 
+.sidebar-logo {
+    font-size: 22px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 40px;
+    padding-left: 8px;
+}
+ 
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+ 
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    border-radius: 10px;
+    color: #f0e6e0;
+    text-decoration: none;
+    font-size: 15px;
+    transition: background 0.15s ease;
+}
+ 
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+ 
+.nav-item.ativo {
+    background: #fff;
+    color: #6b5353;
+    font-weight: bold;
+}
+ 
+.nav-icon {
+    font-size: 18px;
+    width: 22px;
+    text-align: center;
+}
+ 
+.sidebar-rodape .sair {
+    color: #f0e6e0;
+}
+ 
+/* ===== CONTEÚDO PRINCIPAL ===== */
+ 
+.conteudo {
+    flex: 1;
+    padding: 35px 45px;
+}
+ 
+.topo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+ 
+.btn-menu {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #6b5353;
+}
+ 
+.topo-texto h1 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 4px;
+}
+ 
+.topo-texto p {
+    font-size: 14px;
+    color: #777;
+}
+ 
+/* ===== CARDS DE RESUMO ===== */
+ 
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1240px;
+    margin-bottom: 22px;
+}
+ 
+.resumo-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    border-left: 5px solid #6b5353;
+}
+ 
+.resumo-numero {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+ 
+.resumo-label {
+    font-size: 13px;
+    color: #888;
+}
+ 
+.resumo-pendente {
+    border-left-color: #d98a1f;
+}
+ 
+.resumo-andamento {
+    border-left-color: #2554c7;
+}
+ 
+.resumo-entregue {
+    border-left-color: #1f8a3d;
+}
+ 
+/* ===== PRÓXIMO PRAZO ===== */
+ 
+.proximo-prazo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fdecd2;
+    color: #7a4a06;
+    border-radius: 12px;
+    padding: 14px 20px;
+    max-width: 1240px;
+    margin-bottom: 32px;
+    font-size: 14px;
+}
+ 
+.proximo-prazo-icone {
+    font-size: 18px;
+}
+ 
+/* ===== CATEGORIAS ===== */
+ 
+.categoria {
+    max-width: 1240px;
+    margin-bottom: 28px;
+}
+ 
+.categoria-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    color: #444;
+    margin-bottom: 14px;
+}
+ 
+.bolinha {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+ 
+.bolinha-pendente {
+    background: #d98a1f;
+}
+ 
+.bolinha-andamento {
+    background: #2554c7;
+}
+ 
+.bolinha-entregue {
+    background: #1f8a3d;
+}
+ 
+/* ===== LISTA DE TRABALHOS ===== */
+ 
+.lista-trabalhos {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+ 
+.trabalho-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+ 
+.trabalho-titulo {
+    font-size: 17px;
+    color: #222;
+    margin-bottom: 4px;
+}
+ 
+.trabalho-prazo {
+    font-size: 13px;
+    color: #888;
+}
+ 
+.status {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+ 
+.status-pendente {
+    background: #fdecd2;
+    color: #a9660b;
+}
+ 
+.status-andamento {
+    background: #dde7fb;
+    color: #2554c7;
+}
+ 
+.status-entregue {
+    background: #dcf5e3;
+    color: #1f8a3d;
+}
+ 
+/* ===== RESPONSIVO (celular) ===== */
+ 
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -240px;
+        top: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: left 0.25s ease;
+    }
+ 
+    .sidebar.aberta {
+        left: 0;
+    }
+ 
+    .btn-menu {
+        display: block;
+    }
+ 
+    .conteudo {
+        padding: 22px;
+    }
+ 
+    .resumo {
+        grid-template-columns: repeat(2, 1fr);
+    }
+ 
+    .trabalho-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+ 
