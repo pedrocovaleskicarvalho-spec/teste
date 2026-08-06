@@ -1,221 +1,206 @@
-body{
 
-margin:0;
-font-family:Arial;
-
-background:linear-gradient(
-180deg,
-#e8d3c1,
-#e8d3c1
-);
-
-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
+/* Reset global (usando o do cadastro.css, que é o mais completo) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-.container{
-
-width:380px;
-
+ 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #e8d3c1, #e8d3c1);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
 }
-
-.voltar{
-
-font-weight: bold;
-color: #6b5353;
-text-decoration:none;
-font-size:22px;
-
+ 
+.container {
+    width: 380px;
 }
-
-.logo{
-
-text-align:center;
-margin:30px 0;
-
-}
-
-.logo h1{
-
-color:#6b5353;
-
-}
-
-.tabs{
-
-display:flex;
-
-background:#ddd;
-
-border-radius:15px;
-
-overflow:hidden;
-
-margin-bottom:20px;
-
-}
-
-.tabs button{
-
-flex:1;
-
-padding:18px;
-
-border:none;
-
-background:#ddd;
-
-font-size:22px;
-
-cursor:pointer;
-
-}
-
-.tabs .ativo{
-
-background:white;
-
-}
-
-.card{
-
-background:white;
-
-padding:25px;
-
-border-radius:18px;
-
-}
-
-input{
-
-width:100%;
-
-padding:16px;
-
-margin:10px 0 20px;
-
-border:none;
-
-background:#eee;
-
-border-radius:10px;
-
-font-size:18px;
-
-}
-
-.entrar{
-
-font-weight: bold;
-
-width:100%;
-
-padding:15px;
-
-background:#6b5353;
-
-color:white;
-
-border:none;
-
-border-radius:10px;
-
-font-size:20px;
-
-cursor:pointer;
-
-}
-
-.google{
-
-width:100%;
-
-padding:15px;
-
-margin-top:20px;
-
-font-size:18px;
-
-background:white;
-
-border:1px solid #999;
-
-border-radius:10px;
-
-cursor:pointer;
-
-}
-
-.linha{
-
-text-align:center;
-
-margin:20px 0;
-
-color:#777;
-
-}
-
-input{
-    width:100%;
-    padding:16px;
-    margin:10px 0 20px;
-    border:none;
-    background:#eee;
-    border-radius:10px;
-    font-size:18px;
-    box-sizing:border-box;
-}
-
-*{
-    box-sizing:border-box;
-}
-
-input,
-.entrar,
-.google{
-    box-sizing:border-box;
-}
-
-.esqueci_a_senha {
-    margin-bottom: 14px;
-
-}
-
-
-label {
-
-    font-size: 16px;
+ 
+/* ===== Elementos compartilhados (topo da página) =====
+   Como agora existe só UM cabeçalho pra login e cadastro juntos,
+   usei os valores do cadastro.css pra esses elementos. */
+ 
+.voltar {
+    display: inline-block;
+    text-decoration: none;
+    color: #6b5353;
+    font-size: 22px;
     font-weight: bold;
-    color: #333;
-
+    margin-bottom: 15px;
 }
-
-
+ 
+.logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+ 
+.logo h1 {
+    color: #6b5353;
+    font-size: 32px;
+    margin-bottom: 6px;
+    padding: 14px;
+}
+ 
+.logo p {
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+ 
+.tabs {
+    display: flex;
+    background: #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+ 
+.tabs button {
+    flex: 1;
+    padding: 18px;
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    color: #000;
+    cursor: pointer;
+}
+ 
+.tabs .ativo {
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+ 
+/* ===== Card (compartilhado entre login e cadastro) ===== */
+ 
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+ 
 .card h2 {
     font-size: 25px;
-
+    color: #111;
+    margin-bottom: 4px;
 }
-
-
+ 
 .card > p {
     font-size: 16px;
     color: #666;
-
+    margin-bottom: 20px;
 }
-
+ 
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+ 
+input {
+    width: 100%;
+    padding: 18px;
+    margin: 10px 0 20px 0;
+    border: none;
+    background: #eee;
+    border-radius: 10px;
+    font-size: 18px;
+}
+ 
+input:focus {
+    border-color: #00c853;
+    background: #fff;
+}
+ 
+/* ===== Botão do formulário de LOGIN ===== */
+ 
+.entrar {
+    font-weight: bold;
+    width: 100%;
+    padding: 15px;
+    background: #6b5353;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+ 
 .entrar:hover {
     background: #574343;
 }
-
-
-
-
+ 
+.google {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 18px;
+    background: white;
+    border: 1px solid #999;
+    border-radius: 10px;
+    cursor: pointer;
+}
+ 
+.linha {
+    text-align: center;
+    margin: 20px 0;
+    color: #777;
+}
+ 
+.esqueci_a_senha {
+    margin-bottom: 14px;
+}
+ 
+/* ===== Botão do formulário de CADASTRO ===== */
+ 
+.criar {
+    width: 100%;
+    padding: 16px;
+    background: #6b5353;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+ 
+.criar:hover {
+    background: #574343;
+}
+ 
+/* ===== Seleção de tipo de conta (aluno/professor) - só existe no cadastro ===== */
+ 
+.tipo-conta {
+    display: flex;
+    gap: 10px;
+    margin: 8px 0 16px 0;
+}
+ 
+.tipo-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #eee;
+    background: #f4f4f4;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+ 
+.tipo-btn.ativo {
+    background: #6b5353;
+    color: #ffffff;
+    border-color: #6b5353;
+}
+ 
 
 
 
