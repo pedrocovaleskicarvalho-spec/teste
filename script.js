@@ -1,3 +1,4 @@
+
 // Página inicial
 const btnEntrar = document.getElementById("btn-entrar");
 const btnComecar = document.getElementById("btn-comecar");
@@ -39,7 +40,7 @@ if (btnComecar) {
 // Botão Criar Conta
 if (btnCriarConta) {
     btnCriarConta.addEventListener("click", () => {
-        window.location.href = "login.html";
+        window.location.href = "login.html?form=cadastro";
     });
 }
  

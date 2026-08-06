@@ -113,6 +113,12 @@
             botaoClicado.classList.add('ativo');
             document.getElementById('tipoContaCadastro').value = botaoClicado.dataset.tipo;
         }
+ 
+        // Se a URL vier com ?form=cadastro, já abre direto no card de cadastro
+        const parametros = new URLSearchParams(window.location.search);
+        if (parametros.get('form') === 'cadastro') {
+            mostrarForm('cadastro');
+        }
     </script>
  
     <script type="module">
