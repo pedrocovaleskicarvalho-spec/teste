@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Grupos - TungProject</title>
-    <link rel="stylesheet" href="painel-professor.css">
+    <title>Meus Trabalhos - TungProject</title>
+    <link rel="stylesheet" href="painel-aluno.css">
 </head>
  
 <body>
@@ -24,12 +24,12 @@
                     <span class="nav-texto">Início</span>
                 </a>
                 <a href="#" class="nav-item">
-                    <span class="nav-icon">👥</span>
-                    <span class="nav-texto">Meus Grupos</span>
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-texto">Meus Trabalhos</span>
                 </a>
                 <a href="#" class="nav-item">
-                    <span class="nav-icon">📋</span>
-                    <span class="nav-texto">Trabalhos Criados</span>
+                    <span class="nav-icon">⏰</span>
+                    <span class="nav-texto">Prazos</span>
                 </a>
                 <a href="#" class="nav-item">
                     <span class="nav-icon">👤</span>
@@ -51,8 +51,8 @@
             <header class="topo">
                 <button class="btn-menu" id="btnMenu" aria-label="Abrir menu">☰</button>
                 <div class="topo-texto">
-                    <h1>Olá, professor</h1>
-                    <p>Aqui está o progresso dos seus grupos</p>
+                    <h1>Olá, aluno</h1>
+                    <p>Aqui estão os trabalhos do seu grupo</p>
                 </div>
             </header>
  
@@ -60,70 +60,75 @@
             <section class="resumo">
                 <div class="resumo-card">
                     <span class="resumo-numero">3</span>
-                    <span class="resumo-label">Grupos ativos</span>
+                    <span class="resumo-label">Total de trabalhos</span>
                 </div>
-                <div class="resumo-card">
-                    <span class="resumo-numero">8</span>
-                    <span class="resumo-label">Alunos no total</span>
+                <div class="resumo-card resumo-pendente">
+                    <span class="resumo-numero">1</span>
+                    <span class="resumo-label">Pendente</span>
                 </div>
-                <div class="resumo-card resumo-atencao">
-                    <span class="resumo-numero">2</span>
-                    <span class="resumo-label">Trabalhos com pendência</span>
+                <div class="resumo-card resumo-andamento">
+                    <span class="resumo-numero">1</span>
+                    <span class="resumo-label">Em andamento</span>
                 </div>
                 <div class="resumo-card resumo-entregue">
-                    <span class="resumo-numero">4</span>
-                    <span class="resumo-label">Trabalhos em dia</span>
+                    <span class="resumo-numero">1</span>
+                    <span class="resumo-label">Entregue</span>
                 </div>
             </section>
  
-            <!-- ===== ALERTA ===== -->
-            <section class="alerta">
-                <span class="alerta-icone">⚠️</span>
-                <p><strong>2 alunos</strong> ainda não entregaram "Resumo de Biologia - Capítulo 4"</p>
+            <!-- ===== PRÓXIMO PRAZO ===== -->
+            <section class="proximo-prazo">
+                <span class="proximo-prazo-icone">⚠️</span>
+                <p><strong>Resumo de Biologia - Capítulo 4</strong> vence em breve — prazo: 12 de agosto de 2026</p>
             </section>
  
-            <!-- ===== LISTA DE GRUPOS ===== -->
-            <section class="secao-grupos">
-                <h2 class="secao-titulo">Meus Grupos</h2>
+            <!-- ===== TRABALHOS POR CATEGORIA ===== -->
  
-                <div class="lista-grupos">
+            <section class="categoria">
+                <h2 class="categoria-titulo">
+                    <span class="bolinha bolinha-pendente"></span>
+                    Pendente
+                </h2>
+                <div class="lista-trabalhos">
+                    <article class="trabalho-card">
+                        <div class="trabalho-info">
+                            <h3 class="trabalho-titulo">Resumo de Biologia - Capítulo 4</h3>
+                            <p class="trabalho-prazo">Prazo: 12 de agosto de 2026</p>
+                        </div>
+                        <span class="status status-pendente">Pendente</span>
+                    </article>
+                </div>
+            </section>
  
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Grupo do João</h3>
-                            <p class="grupo-alunos">👥 3 alunos — João, Marina, Pedro</p>
-                            <div class="barra-progresso">
-                                <div class="barra-preenchida" style="width: 66%"></div>
-                            </div>
-                            <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
+            <section class="categoria">
+                <h2 class="categoria-titulo">
+                    <span class="bolinha bolinha-andamento"></span>
+                    Em andamento
+                </h2>
+                <div class="lista-trabalhos">
+                    <article class="trabalho-card">
+                        <div class="trabalho-info">
+                            <h3 class="trabalho-titulo">Projeto de Sustentabilidade</h3>
+                            <p class="trabalho-prazo">Prazo: 10 de agosto de 2026</p>
                         </div>
                         <span class="status status-andamento">Em andamento</span>
                     </article>
+                </div>
+            </section>
  
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Grupo da Ana</h3>
-                            <p class="grupo-alunos">👥 3 alunos — Ana, Lucas, Beatriz</p>
-                            <div class="barra-progresso">
-                                <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
-                            </div>
-                            <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
+            <section class="categoria">
+                <h2 class="categoria-titulo">
+                    <span class="bolinha bolinha-entregue"></span>
+                    Entregue
+                </h2>
+                <div class="lista-trabalhos">
+                    <article class="trabalho-card">
+                        <div class="trabalho-info">
+                            <h3 class="trabalho-titulo">Apresentação de História</h3>
+                            <p class="trabalho-prazo">Prazo: 6 de agosto de 2026</p>
                         </div>
-                        <span class="status status-pendente">Atenção</span>
+                        <span class="status status-entregue">Entregue</span>
                     </article>
- 
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Grupo do Rafael</h3>
-                            <p class="grupo-alunos">👥 2 alunos — Rafael, Camila</p>
-                            <div class="barra-progresso">
-                                <div class="barra-preenchida barra-completa" style="width: 100%"></div>
-                            </div>
-                            <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
-                        </div>
-                        <span class="status status-entregue">Concluído</span>
-                    </article>
- 
                 </div>
             </section>
  
