@@ -4,13 +4,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Professor - TungProject</title>
+    <title>Meus Grupos - TungProject</title>
+    <link rel="stylesheet" href="painel-professor.css">
 </head>
  
 <body>
  
-    <h1>Painel do Professor</h1>
-    <p>Em construção.</p>
+    <div class="app">
+ 
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-topo">
+                <span class="sidebar-logo">TungProject</span>
+            </div>
+ 
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item ativo">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-texto">Início</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-texto">Meus Grupos</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-texto">Trabalhos Criados</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-texto">Perfil</span>
+                </a>
+            </nav>
+ 
+            <div class="sidebar-rodape">
+                <a href="index.html" class="nav-item sair">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-texto">Sair</span>
+                </a>
+            </div>
+        </aside>
+ 
+        <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+        <div class="conteudo">
+ 
+            <header class="topo">
+                <button class="btn-menu" id="btnMenu" aria-label="Abrir menu">☰</button>
+                <div class="topo-texto">
+                    <h1>Olá, professor</h1>
+                    <p>Aqui está o progresso dos seus grupos</p>
+                </div>
+            </header>
+ 
+            <!-- ===== CARDS DE RESUMO ===== -->
+            <section class="resumo">
+                <div class="resumo-card">
+                    <span class="resumo-numero">3</span>
+                    <span class="resumo-label">Grupos ativos</span>
+                </div>
+                <div class="resumo-card">
+                    <span class="resumo-numero">8</span>
+                    <span class="resumo-label">Alunos no total</span>
+                </div>
+                <div class="resumo-card resumo-atencao">
+                    <span class="resumo-numero">3</span>
+                    <span class="resumo-label">Trabalhos com pendência</span>
+                </div>
+                <div class="resumo-card resumo-entregue">
+                    <span class="resumo-numero">5</span>
+                    <span class="resumo-label">Trabalhos em dia</span>
+                </div>
+            </section>
+ 
+            <!-- ===== ALERTA ===== -->
+            <section class="alerta">
+                <span class="alerta-icone">⚠️</span>
+                <p><strong>2 alunos</strong> ainda não entregaram "Resumo de Biologia - Capítulo 4"</p>
+            </section>
+ 
+            <!-- ===== LISTA DE GRUPOS ===== -->
+            <section class="secao-grupos">
+                <h2 class="secao-titulo">Meus Grupos</h2>
+ 
+                <div class="lista-grupos">
+ 
+                    <article class="grupo-card">
+                        <div class="grupo-info">
+                            <h3 class="grupo-titulo">Grupo do João</h3>
+                            <p class="grupo-alunos">👥 3 alunos — João, Marina, Pedro</p>
+                            <div class="barra-progresso">
+                                <div class="barra-preenchida" style="width: 66%"></div>
+                            </div>
+                            <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
+                        </div>
+                        <span class="status status-andamento">Em andamento</span>
+                    </article>
+ 
+                    <article class="grupo-card">
+                        <div class="grupo-info">
+                            <h3 class="grupo-titulo">Grupo da Ana</h3>
+                            <p class="grupo-alunos">👥 3 alunos — Ana, Lucas, Beatriz</p>
+                            <div class="barra-progresso">
+                                <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
+                            </div>
+                            <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
+                        </div>
+                        <span class="status status-pendente">Atenção</span>
+                    </article>
+ 
+                    <article class="grupo-card">
+                        <div class="grupo-info">
+                            <h3 class="grupo-titulo">Grupo do Rafael</h3>
+                            <p class="grupo-alunos">👥 2 alunos — Rafael, Camila</p>
+                            <div class="barra-progresso">
+                                <div class="barra-preenchida barra-completa" style="width: 100%"></div>
+                            </div>
+                            <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
+                        </div>
+                        <span class="status status-entregue">Concluído</span>
+                    </article>
+ 
+                </div>
+            </section>
+ 
+            <!-- ===== TRABALHOS INDIVIDUAIS ===== -->
+            <section class="secao-grupos">
+                <h2 class="secao-titulo">Trabalhos Individuais</h2>
+ 
+                <div class="lista-grupos">
+ 
+                    <article class="grupo-card">
+                        <div class="grupo-info">
+                            <h3 class="grupo-titulo">Marina <span class="tipo-tag tipo-individual">Individual</span></h3>
+                            <p class="grupo-alunos">📄 Redação sobre Meio Ambiente — prazo: 9 de agosto de 2026</p>
+                        </div>
+                        <span class="status status-pendente">Pendente</span>
+                    </article>
+ 
+                    <article class="grupo-card">
+                        <div class="grupo-info">
+                            <h3 class="grupo-titulo">Rafael <span class="tipo-tag tipo-individual">Individual</span></h3>
+                            <p class="grupo-alunos">📄 Ficha de Leitura - Dom Casmurro — prazo: 5 de agosto de 2026</p>
+                        </div>
+                        <span class="status status-entregue">Entregue</span>
+                    </article>
+ 
+                </div>
+            </section>
+ 
+        </div>
+ 
+    </div>
+ 
+    <script>
+        // Abre/fecha a sidebar no celular
+        const btnMenu = document.getElementById('btnMenu');
+        const sidebar = document.getElementById('sidebar');
+ 
+        btnMenu.addEventListener('click', function () {
+            sidebar.classList.toggle('aberta');
+        });
+    </script>
  
 </body>
  

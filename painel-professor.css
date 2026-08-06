@@ -141,21 +141,17 @@ body {
     color: #888;
 }
  
-.resumo-pendente {
+.resumo-atencao {
     border-left-color: #d98a1f;
-}
- 
-.resumo-andamento {
-    border-left-color: #2554c7;
 }
  
 .resumo-entregue {
     border-left-color: #1f8a3d;
 }
  
-/* ===== PRÓXIMO PRAZO ===== */
+/* ===== ALERTA ===== */
  
-.proximo-prazo {
+.alerta {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -168,67 +164,47 @@ body {
     font-size: 14px;
 }
  
-.proximo-prazo-icone {
+.alerta-icone {
     font-size: 18px;
 }
  
-/* ===== CATEGORIAS ===== */
+/* ===== LISTA DE GRUPOS ===== */
  
-.categoria {
-    max-width: 1240px;
-    margin-bottom: 28px;
+.secao-grupos {
+    max-width: 1000px;
 }
  
-.categoria-titulo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 17px;
+.secao-titulo {
+    font-size: 18px;
     color: #444;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
  
-.bolinha {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
- 
-.bolinha-pendente {
-    background: #d98a1f;
-}
- 
-.bolinha-andamento {
-    background: #2554c7;
-}
- 
-.bolinha-entregue {
-    background: #1f8a3d;
-}
- 
-/* ===== LISTA DE TRABALHOS ===== */
- 
-.lista-trabalhos {
+.lista-grupos {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
  
-.trabalho-card {
+.grupo-card {
     background: #fff;
     border-radius: 14px;
-    padding: 20px 24px;
+    padding: 22px 26px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
  
-.trabalho-titulo {
-    font-size: 17px;
+.grupo-info {
+    flex: 1;
+}
+ 
+.grupo-titulo {
+    font-size: 18px;
     color: #222;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
  
 .tipo-tag {
@@ -245,14 +221,39 @@ body {
     color: #6a3fb5;
 }
  
-.tipo-grupo {
-    background: #e4f1ec;
-    color: #227a5b;
-}
- 
-.trabalho-prazo {
+.grupo-alunos {
     font-size: 13px;
     color: #888;
+    margin-bottom: 12px;
+}
+ 
+.barra-progresso {
+    width: 100%;
+    max-width: 320px;
+    height: 8px;
+    background: #eee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+ 
+.barra-preenchida {
+    height: 100%;
+    background: #2554c7;
+    border-radius: 20px;
+}
+ 
+.barra-atencao {
+    background: #d98a1f;
+}
+ 
+.barra-completa {
+    background: #1f8a3d;
+}
+ 
+.grupo-progresso-texto {
+    font-size: 12px;
+    color: #999;
 }
  
 .status {
@@ -306,10 +307,14 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
  
-    .trabalho-card {
+    .grupo-card {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 14px;
+    }
+ 
+    .barra-progresso {
+        max-width: 100%;
     }
 }
  
