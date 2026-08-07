@@ -59,27 +59,21 @@
             <!-- ===== CARDS DE RESUMO ===== -->
             <section class="resumo">
                 <div class="resumo-card">
-                    <span class="resumo-numero">5</span>
+                    <span class="resumo-numero" id="numTotal">2</span>
                     <span class="resumo-label">Total de trabalhos</span>
                 </div>
                 <div class="resumo-card resumo-pendente">
-                    <span class="resumo-numero">2</span>
+                    <span class="resumo-numero" id="numPendente">0</span>
                     <span class="resumo-label">Pendente</span>
                 </div>
                 <div class="resumo-card resumo-andamento">
-                    <span class="resumo-numero">1</span>
+                    <span class="resumo-numero" id="numAndamento">1</span>
                     <span class="resumo-label">Em andamento</span>
                 </div>
                 <div class="resumo-card resumo-entregue">
-                    <span class="resumo-numero">2</span>
+                    <span class="resumo-numero" id="numEntregue">1</span>
                     <span class="resumo-label">Entregue</span>
                 </div>
-            </section>
- 
-            <!-- ===== PRÓXIMO PRAZO ===== -->
-            <section class="proximo-prazo">
-                <span class="proximo-prazo-icone">⚠️</span>
-                <p><strong>Redação sobre Meio Ambiente</strong> vence em breve — prazo: 9 de agosto de 2026</p>
             </section>
  
             <!-- ===== TRABALHOS POR CATEGORIA ===== -->
@@ -89,21 +83,8 @@
                     <span class="bolinha bolinha-pendente"></span>
                     Pendente
                 </h2>
-                <div class="lista-trabalhos">
-                    <article class="trabalho-card">
-                        <div class="trabalho-info">
-                            <h3 class="trabalho-titulo">Redação sobre Meio Ambiente <span class="tipo-tag tipo-individual">Individual</span></h3>
-                            <p class="trabalho-prazo">Prazo: 9 de agosto de 2026</p>
-                        </div>
-                        <span class="status status-pendente">Pendente</span>
-                    </article>
-                    <article class="trabalho-card">
-                        <div class="trabalho-info">
-                            <h3 class="trabalho-titulo">Resumo de Biologia - Capítulo 4 <span class="tipo-tag tipo-individual">Individual</span></h3>
-                            <p class="trabalho-prazo">Prazo: 12 de agosto de 2026</p>
-                        </div>
-                        <span class="status status-pendente">Pendente</span>
-                    </article>
+                <div class="lista-trabalhos" id="listaPendente">
+                    <!-- trabalhos individuais reais entram aqui via Firebase -->
                 </div>
             </section>
  
@@ -112,7 +93,7 @@
                     <span class="bolinha bolinha-andamento"></span>
                     Em andamento
                 </h2>
-                <div class="lista-trabalhos">
+                <div class="lista-trabalhos" id="listaAndamento">
                     <article class="trabalho-card">
                         <div class="trabalho-info">
                             <h3 class="trabalho-titulo">Projeto de Sustentabilidade <span class="tipo-tag tipo-grupo">Grupo</span></h3>
@@ -120,6 +101,7 @@
                         </div>
                         <span class="status status-andamento">Em andamento</span>
                     </article>
+                    <!-- trabalhos individuais reais entram aqui via Firebase -->
                 </div>
             </section>
  
@@ -128,7 +110,7 @@
                     <span class="bolinha bolinha-entregue"></span>
                     Entregue
                 </h2>
-                <div class="lista-trabalhos">
+                <div class="lista-trabalhos" id="listaEntregue">
                     <article class="trabalho-card">
                         <div class="trabalho-info">
                             <h3 class="trabalho-titulo">Apresentação de História <span class="tipo-tag tipo-grupo">Grupo</span></h3>
@@ -136,13 +118,7 @@
                         </div>
                         <span class="status status-entregue">Entregue</span>
                     </article>
-                    <article class="trabalho-card">
-                        <div class="trabalho-info">
-                            <h3 class="trabalho-titulo">Ficha de Leitura - Dom Casmurro <span class="tipo-tag tipo-individual">Individual</span></h3>
-                            <p class="trabalho-prazo">Prazo: 5 de agosto de 2026</p>
-                        </div>
-                        <span class="status status-entregue">Entregue</span>
-                    </article>
+                    <!-- trabalhos individuais reais entram aqui via Firebase -->
                 </div>
             </section>
  
@@ -157,6 +133,110 @@
  
         btnMenu.addEventListener('click', function () {
             sidebar.classList.toggle('aberta');
+        });
+    </script>
+ 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+ 
+        const firebaseConfig = {
+            apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
+            authDomain: "tungproject-8f6cf.firebaseapp.com",
+            projectId: "tungproject-8f6cf",
+            storageBucket: "tungproject-8f6cf.firebasestorage.app",
+            messagingSenderId: "602713548775",
+            appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
+        };
+ 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+ 
+        // Contadores base: os 2 trabalhos de grupo fixos (exemplo de demonstração)
+        const BASE_TOTAL = 2;
+        const BASE_ANDAMENTO = 1;
+        const BASE_ENTREGUE = 1;
+        const BASE_PENDENTE = 0;
+ 
+        function criarCardTrabalho(trabalho) {
+            const card = document.createElement('article');
+            card.className = 'trabalho-card';
+ 
+            const statusLabel = {
+                pendente: 'Pendente',
+                andamento: 'Em andamento',
+                entregue: 'Entregue'
+            }[trabalho.status] || trabalho.status;
+ 
+            card.innerHTML = `
+                <div class="trabalho-info">
+                    <h3 class="trabalho-titulo">${trabalho.titulo} <span class="tipo-tag tipo-individual">Individual</span></h3>
+                    <p class="trabalho-prazo">Prazo: ${trabalho.prazo}</p>
+                </div>
+                <span class="status status-${trabalho.status}">${statusLabel}</span>
+            `;
+ 
+            return card;
+        }
+ 
+        function atualizarContadores(trabalhosIndividuais) {
+            let pendente = BASE_PENDENTE, andamento = BASE_ANDAMENTO, entregue = BASE_ENTREGUE;
+ 
+            trabalhosIndividuais.forEach(function (t) {
+                if (t.status === 'pendente') pendente++;
+                else if (t.status === 'andamento') andamento++;
+                else if (t.status === 'entregue') entregue++;
+            });
+ 
+            document.getElementById('numPendente').textContent = pendente;
+            document.getElementById('numAndamento').textContent = andamento;
+            document.getElementById('numEntregue').textContent = entregue;
+            document.getElementById('numTotal').textContent = BASE_TOTAL + trabalhosIndividuais.length;
+        }
+ 
+        onAuthStateChanged(auth, function (user) {
+            if (!user) {
+                // Ninguém logado, volta pro login
+                window.location.href = "login.html";
+                return;
+            }
+ 
+            const q = query(collection(db, "trabalhos"), where("alunoId", "==", user.uid));
+ 
+            onSnapshot(q, function (snapshot) {
+                const listaPendente = document.getElementById('listaPendente');
+                const listaAndamento = document.getElementById('listaAndamento');
+                const listaEntregue = document.getElementById('listaEntregue');
+ 
+                // Remove só os trabalhos individuais renderizados antes (mantém os de grupo fixos)
+                document.querySelectorAll('.trabalho-card[data-individual="true"]').forEach(function (el) {
+                    el.remove();
+                });
+ 
+                const trabalhosIndividuais = [];
+ 
+                snapshot.forEach(function (docSnap) {
+                    const trabalho = docSnap.data();
+                    trabalhosIndividuais.push(trabalho);
+ 
+                    const card = criarCardTrabalho(trabalho);
+                    card.setAttribute('data-individual', 'true');
+ 
+                    if (trabalho.status === 'pendente') listaPendente.appendChild(card);
+                    else if (trabalho.status === 'andamento') listaAndamento.appendChild(card);
+                    else if (trabalho.status === 'entregue') listaEntregue.appendChild(card);
+                });
+ 
+                atualizarContadores(trabalhosIndividuais);
+            });
         });
     </script>
  

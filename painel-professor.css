@@ -221,6 +221,12 @@ body {
     color: #6a3fb5;
 }
  
+.carregando {
+    font-size: 14px;
+    color: #999;
+    padding: 10px 0;
+}
+ 
 .grupo-alunos {
     font-size: 13px;
     color: #888;
@@ -317,4 +323,3 @@ body {
         max-width: 100%;
     }
 }
- 

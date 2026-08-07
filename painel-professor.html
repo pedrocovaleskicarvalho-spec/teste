@@ -131,24 +131,8 @@
             <section class="secao-grupos">
                 <h2 class="secao-titulo">Trabalhos Individuais</h2>
  
-                <div class="lista-grupos">
- 
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Marina <span class="tipo-tag tipo-individual">Individual</span></h3>
-                            <p class="grupo-alunos">📄 Redação sobre Meio Ambiente — prazo: 9 de agosto de 2026</p>
-                        </div>
-                        <span class="status status-pendente">Pendente</span>
-                    </article>
- 
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Rafael <span class="tipo-tag tipo-individual">Individual</span></h3>
-                            <p class="grupo-alunos">📄 Ficha de Leitura - Dom Casmurro — prazo: 5 de agosto de 2026</p>
-                        </div>
-                        <span class="status status-entregue">Entregue</span>
-                    </article>
- 
+                <div class="lista-grupos" id="listaIndividuais">
+                    <p class="carregando" id="msgCarregando">Carregando trabalhos...</p>
                 </div>
             </section>
  
@@ -163,6 +147,76 @@
  
         btnMenu.addEventListener('click', function () {
             sidebar.classList.toggle('aberta');
+        });
+    </script>
+ 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+ 
+        const firebaseConfig = {
+            apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
+            authDomain: "tungproject-8f6cf.firebaseapp.com",
+            projectId: "tungproject-8f6cf",
+            storageBucket: "tungproject-8f6cf.firebasestorage.app",
+            messagingSenderId: "602713548775",
+            appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
+        };
+ 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+ 
+        function criarCardIndividual(trabalho) {
+            const card = document.createElement('article');
+            card.className = 'grupo-card';
+ 
+            const statusLabel = {
+                pendente: 'Pendente',
+                andamento: 'Em andamento',
+                entregue: 'Entregue'
+            }[trabalho.status] || trabalho.status;
+ 
+            card.innerHTML = `
+                <div class="grupo-info">
+                    <h3 class="grupo-titulo">${trabalho.alunoNome} <span class="tipo-tag tipo-individual">Individual</span></h3>
+                    <p class="grupo-alunos">📄 ${trabalho.titulo} — prazo: ${trabalho.prazo}</p>
+                </div>
+                <span class="status status-${trabalho.status}">${statusLabel}</span>
+            `;
+ 
+            return card;
+        }
+ 
+        onAuthStateChanged(auth, function (user) {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+ 
+            const q = query(collection(db, "trabalhos"), where("tipo", "==", "individual"));
+ 
+            onSnapshot(q, function (snapshot) {
+                const lista = document.getElementById('listaIndividuais');
+                lista.innerHTML = "";
+ 
+                if (snapshot.empty) {
+                    lista.innerHTML = '<p class="carregando">Nenhum trabalho individual cadastrado ainda.</p>';
+                    return;
+                }
+ 
+                snapshot.forEach(function (docSnap) {
+                    const trabalho = docSnap.data();
+                    lista.appendChild(criarCardIndividual(trabalho));
+                });
+            });
         });
     </script>
  
