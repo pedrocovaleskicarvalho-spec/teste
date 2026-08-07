@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #e8d3c1, #e8d3c1);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+ 
+.container {
+    width: 420px;
+}
+ 
+.logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+ 
+.logo h1 {
+    color: #6b5353;
+    font-size: 32px;
+    margin-bottom: 6px;
+    padding: 14px;
+}
+ 
+.logo p {
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+ 
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+ 
+.card h2 {
+    font-size: 25px;
+    color: #111;
+    margin-bottom: 4px;
+}
+ 
+.card > p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+ 
+.lista-turmas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+ 
+.carregando {
+    font-size: 14px;
+    color: #999;
+    padding: 10px 0;
+}
+ 
+.turma-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: #f4f4f4;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    text-align: left;
+}
+ 
+.turma-card:hover {
+    background: #ece4de;
+}
+ 
+.turma-nome {
+    font-weight: bold;
+}
+ 
+.turma-seta {
+    color: #6b5353;
+    font-size: 18px;
+}
+ 
+.nova-turma {
+    border-top: 1px solid #eee;
+    padding-top: 18px;
+}
+ 
+.nova-turma input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px;
+    border: none;
+    background: #eee;
+    border-radius: 10px;
+    font-size: 15px;
+}
+ 
+.btn-criar-turma {
+    width: 100%;
+    padding: 14px;
+    background: #6b5353;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+ 
+.btn-criar-turma:hover {
+    background: #574343;
+}
+ 

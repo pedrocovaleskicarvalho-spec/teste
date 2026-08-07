@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Turma - TungProject</title>
+    <link rel="stylesheet" href="selecionar-turma.css">
+</head>
+ 
+<body>
+ 
+    <div class="container">
+ 
+        <div class="logo">
+            <h1>TungProject</h1>
+            <p>Escolha uma turma para gerenciar</p>
+        </div>
+ 
+        <div class="card">
+ 
+            <h2>Minhas Turmas</h2>
+            <p>Selecione uma turma ou crie uma nova</p>
+ 
+            <div class="lista-turmas" id="listaTurmas">
+                <p class="carregando" id="msgCarregando">Carregando turmas...</p>
+            </div>
+ 
+            <div class="nova-turma">
+                <input type="text" id="nomeNovaTurma" placeholder="Nome da nova turma (ex: 3º Ano A)">
+                <button id="btnCriarTurma" class="btn-criar-turma">+ Criar nova turma</button>
+            </div>
+ 
+        </div>
+ 
+    </div>
+ 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            onSnapshot,
+            addDoc,
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+ 
+        const firebaseConfig = {
+            apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
+            authDomain: "tungproject-8f6cf.firebaseapp.com",
+            projectId: "tungproject-8f6cf",
+            storageBucket: "tungproject-8f6cf.firebasestorage.app",
+            messagingSenderId: "602713548775",
+            appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
+        };
+ 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+ 
+        let uidProfessorAtual = null;
+ 
+        function abrirTurma(turmaId) {
+            sessionStorage.setItem('turmaSelecionada', turmaId);
+            window.location.href = "painel-professor.html";
+        }
+ 
+        function criarCardTurma(turmaId, dados) {
+            const card = document.createElement('button');
+            card.type = 'button';
+            card.className = 'turma-card';
+            card.innerHTML = `
+                <span class="turma-nome">${dados.nomeTurma}</span>
+                <span class="turma-seta">→</span>
+            `;
+            card.addEventListener('click', function () {
+                abrirTurma(turmaId);
+            });
+            return card;
+        }
+ 
+        onAuthStateChanged(auth, async function (user) {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+ 
+            // Confere se quem logou é realmente professor
+            const docUsuario = await getDoc(doc(db, "usuarios", user.uid));
+            if (docUsuario.exists() && docUsuario.data().tipo === "aluno") {
+                window.location.href = "painel-aluno.html";
+                return;
+            }
+ 
+            uidProfessorAtual = user.uid;
+ 
+            const q = query(collection(db, "turmas"), where("professorId", "==", user.uid));
+ 
+            onSnapshot(q, function (snapshot) {
+                const lista = document.getElementById('listaTurmas');
+                lista.innerHTML = "";
+ 
+                if (snapshot.empty) {
+                    lista.innerHTML = '<p class="carregando">Você ainda não tem nenhuma turma. Crie a primeira abaixo.</p>';
+                    return;
+                }
+ 
+                snapshot.forEach(function (docSnap) {
+                    lista.appendChild(criarCardTurma(docSnap.id, docSnap.data()));
+                });
+            });
+        });
+ 
+        document.getElementById('btnCriarTurma').addEventListener('click', async function () {
+            const nome = document.getElementById('nomeNovaTurma').value.trim();
+ 
+            if (nome === "") {
+                alert("Digite um nome para a turma.");
+                return;
+            }
+ 
+            if (!uidProfessorAtual) {
+                alert("Aguarde, ainda estamos confirmando seu login.");
+                return;
+            }
+ 
+            try {
+                const novaTurma = await addDoc(collection(db, "turmas"), {
+                    nomeTurma: nome,
+                    professorId: uidProfessorAtual
+                });
+ 
+                abrirTurma(novaTurma.id);
+            } catch (erro) {
+                alert("Erro ao criar turma: " + erro.message);
+            }
+        });
+    </script>
+ 
+</body>
+ 
+</html>
+ 

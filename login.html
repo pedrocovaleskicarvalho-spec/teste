@@ -153,7 +153,7 @@
  
                 if (docSnap.exists()) {
                     const tipo = docSnap.data().tipo;
-                    window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
+                    window.location = tipo === "professor" ? "selecionar-turma.html" : "painel-aluno.html";
                 } else {
                     alert("Usuário autenticado, mas sem dados salvos no banco.");
                 }
@@ -181,7 +181,7 @@
                     tipo: tipo
                 });
  
-                window.location = tipo === "professor" ? "painel-professor.html" : "painel-aluno.html";
+                window.location = tipo === "professor" ? "selecionar-turma.html" : "painel-aluno.html";
             } catch (erro) {
                 alert("Erro ao criar conta: " + erro.message);
             }
