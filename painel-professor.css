@@ -190,6 +190,18 @@ body {
     margin-bottom: 32px;
 }
  
+.secao-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+ 
+.secao-cabecalho .secao-titulo {
+    margin-bottom: 0;
+}
+ 
 .secao-titulo {
     font-size: 18px;
     color: #444;
@@ -268,6 +280,7 @@ body {
     height: 100%;
     background: #2554c7;
     border-radius: 20px;
+    transition: width 0.25s ease;
 }
  
 .barra-atencao {
@@ -304,6 +317,204 @@ body {
 .status-entregue {
     background: #dcf5e3;
     color: #1f8a3d;
+}
+ 
+/* ===== LADO DIREITO DO CARD DE GRUPO (status + controle de progresso) ===== */
+ 
+.grupo-lado {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+ 
+.grupo-controles {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+ 
+.btn-progresso {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #6b5353;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.15s ease;
+}
+ 
+.btn-progresso:hover {
+    background: #f0e9e9;
+}
+ 
+.btn-progresso:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+ 
+.btn-excluir-grupo {
+    border: none;
+    background: none;
+    color: #b23b3b;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+ 
+/* ===== BOTÃO DE AÇÃO PRIMÁRIA (ex: adicionar grupo) ===== */
+ 
+.btn-primario {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #6b5353;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+ 
+.btn-primario:hover {
+    background: #5a4545;
+}
+ 
+/* ===== MODAL: ADICIONAR GRUPO ===== */
+ 
+.modal-fundo {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 20, 20, 0.45);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+}
+ 
+.modal-fundo.aberto {
+    display: flex;
+}
+ 
+.modal-caixa {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 30px;
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+ 
+.modal-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+ 
+.modal-cabecalho h3 {
+    font-size: 19px;
+    color: #333;
+}
+ 
+.modal-fechar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+ 
+.modal-subtexto {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 20px;
+}
+ 
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+ 
+.campo label {
+    font-size: 13px;
+    color: #555;
+    font-weight: bold;
+}
+ 
+.campo small {
+    font-size: 11px;
+    color: #999;
+}
+ 
+.campo input,
+.campo textarea {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #222;
+    resize: vertical;
+}
+ 
+.campo input:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: #6b5353;
+}
+ 
+.modal-erro {
+    display: none;
+    background: #fdecd2;
+    color: #7a4a06;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+ 
+.modal-erro.visivel {
+    display: block;
+}
+ 
+.modal-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+}
+ 
+.btn-secundario {
+    background: #f1ebeb;
+    color: #6b5353;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+ 
+.btn-secundario:hover {
+    background: #e6dcdc;
 }
  
 /* ===== PERFIL ===== */
@@ -401,8 +612,19 @@ body {
         gap: 14px;
     }
  
+    .grupo-lado {
+        align-items: flex-start;
+        width: 100%;
+    }
+ 
     .barra-progresso {
         max-width: 100%;
+    }
+
+    .secao-cabecalho {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     .perfil-card {

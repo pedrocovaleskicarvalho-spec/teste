@@ -140,46 +140,15 @@
             <!-- ===== VIEW: MEUS GRUPOS ===== -->
             <div class="view" id="view-grupos">
                 <section class="secao-grupos">
-                    <h2 class="secao-titulo">Todos os grupos</h2>
+                    <div class="secao-cabecalho">
+                        <h2 class="secao-titulo">Todos os grupos</h2>
+                        <button type="button" class="btn-primario" id="btnAbrirModalGrupo">
+                            <span>+</span> Adicionar grupo
+                        </button>
+                    </div>
 
-                    <div class="lista-grupos">
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Grupo do João <span class="tipo-tag tipo-grupo">Grupo</span></h3>
-                                <p class="grupo-alunos">👥 3 alunos — Enzo, Ezekiel, Pedro</p>
-                                <div class="barra-progresso">
-                                    <div class="barra-preenchida" style="width: 66%"></div>
-                                </div>
-                                <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
-                            </div>
-                            <span class="status status-andamento">Em andamento</span>
-                        </article>
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Grupo da Ana <span class="tipo-tag tipo-grupo">Grupo</span></h3>
-                                <p class="grupo-alunos">👥 3 alunos — Lucas, João, Plovas</p>
-                                <div class="barra-progresso">
-                                    <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
-                                </div>
-                                <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
-                            </div>
-                            <span class="status status-pendente">Atenção</span>
-                        </article>
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Grupo do Rafael <span class="tipo-tag tipo-grupo">Grupo</span></h3>
-                                <p class="grupo-alunos">👥 2 alunos — Anthony, Gabriel</p>
-                                <div class="barra-progresso">
-                                    <div class="barra-preenchida barra-completa" style="width: 100%"></div>
-                                </div>
-                                <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
-                            </div>
-                            <span class="status status-entregue">Concluído</span>
-                        </article>
-
+                    <div class="lista-grupos" id="listaGrupos">
+                        <p class="carregando">Carregando grupos...</p>
                     </div>
                 </section>
             </div>
@@ -249,6 +218,43 @@
 
     </div>
 
+    <!-- ===== MODAL: ADICIONAR GRUPO ===== -->
+    <div class="modal-fundo" id="modalGrupo">
+        <div class="modal-caixa">
+            <div class="modal-cabecalho">
+                <h3>Novo grupo</h3>
+                <button type="button" class="modal-fechar" id="btnFecharModalGrupo" aria-label="Fechar">✕</button>
+            </div>
+            <p class="modal-subtexto">Preencha os dados do grupo. O progresso começa zerado e é atualizado em tempo real.</p>
+
+            <p class="modal-erro" id="modalGrupoErro"></p>
+
+            <form id="formGrupo">
+                <div class="campo">
+                    <label for="inputNomeGrupo">Nome do grupo</label>
+                    <input type="text" id="inputNomeGrupo" placeholder="Ex: Grupo da Beatriz" required>
+                </div>
+
+                <div class="campo">
+                    <label for="inputAlunosGrupo">Alunos do grupo</label>
+                    <textarea id="inputAlunosGrupo" rows="3" placeholder="Um aluno por linha, ou separados por vírgula" required></textarea>
+                    <small>A quantidade de alunos é calculada automaticamente pela lista.</small>
+                </div>
+
+                <div class="campo">
+                    <label for="inputTotalTrabalhos">Trabalhos planejados para o grupo</label>
+                    <input type="number" id="inputTotalTrabalhos" min="1" value="3" required>
+                    <small>Usado para calcular a barra de progresso (ex: 3 trabalhos no total).</small>
+                </div>
+
+                <div class="modal-acoes">
+                    <button type="button" class="btn-secundario" id="btnCancelarGrupo">Cancelar</button>
+                    <button type="submit" class="btn-primario" id="btnSalvarGrupo">Salvar grupo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Abre/fecha a sidebar no celular
         const btnMenu = document.getElementById('btnMenu');
@@ -284,24 +290,20 @@
         };
 
         function mostrarView(nomeView) {
-            // Atualiza qual botão está marcado como ativo
             navItens.forEach(function (item) {
                 item.classList.toggle('ativo', item.dataset.view === nomeView);
             });
 
-            // Mostra só a view escolhida
             views.forEach(function (view) {
                 view.classList.toggle('ativa', view.id === 'view-' + nomeView);
             });
 
-            // Atualiza o título/subtítulo do topo
             const textos = textosPorView[nomeView];
             if (textos) {
                 topoTitulo.textContent = textos.titulo;
                 topoSubtitulo.textContent = textos.subtitulo;
             }
 
-            // No celular, fecha a sidebar depois de escolher uma opção
             sidebar.classList.remove('aberta');
         }
 
@@ -320,7 +322,13 @@
             collection,
             query,
             where,
-            onSnapshot
+            orderBy,
+            onSnapshot,
+            addDoc,
+            doc,
+            updateDoc,
+            deleteDoc,
+            serverTimestamp
         } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -335,6 +343,10 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        // ===================================================
+        // TRABALHOS INDIVIDUAIS (já existia)
+        // ===================================================
 
         function criarCardIndividual(trabalho) {
             const card = document.createElement('article');
@@ -357,6 +369,196 @@
             return card;
         }
 
+        // ===================================================
+        // MEUS GRUPOS (novo — tempo real via Firestore)
+        // ===================================================
+
+        const listaGrupos = document.getElementById('listaGrupos');
+
+        // Escapa texto simples para não quebrar o HTML ao renderizar
+        function escaparTexto(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto;
+            return div.innerHTML;
+        }
+
+        // Transforma o texto do textarea (uma linha ou vírgula por aluno) numa lista limpa
+        function processarListaAlunos(texto) {
+            return texto
+                .split(/[\n,]/)
+                .map(function (nome) { return nome.trim(); })
+                .filter(function (nome) { return nome.length > 0; });
+        }
+
+        function criarCardGrupo(id, grupo) {
+            const total = Math.max(1, Number(grupo.trabalhosTotal) || 1);
+            const entregues = Math.min(Math.max(0, Number(grupo.trabalhosEntregues) || 0), total);
+            const porcentagem = Math.round((entregues / total) * 100);
+
+            let statusClasse = 'status-andamento';
+            let statusTexto = 'Em andamento';
+            let barraClasse = '';
+
+            if (entregues >= total) {
+                statusClasse = 'status-entregue';
+                statusTexto = 'Concluído';
+                barraClasse = 'barra-completa';
+            } else if (porcentagem < 40) {
+                statusClasse = 'status-pendente';
+                statusTexto = 'Atenção';
+                barraClasse = 'barra-atencao';
+            }
+
+            const alunos = Array.isArray(grupo.alunos) ? grupo.alunos : [];
+
+            const card = document.createElement('article');
+            card.className = 'grupo-card';
+            card.innerHTML = `
+                <div class="grupo-info">
+                    <h3 class="grupo-titulo">${escaparTexto(grupo.nome || 'Grupo sem nome')} <span class="tipo-tag tipo-grupo">Grupo</span></h3>
+                    <p class="grupo-alunos">👥 ${alunos.length} aluno${alunos.length === 1 ? '' : 's'} — ${escaparTexto(alunos.join(', ') || 'sem alunos cadastrados')}</p>
+                    <div class="barra-progresso">
+                        <div class="barra-preenchida ${barraClasse}" style="width: ${porcentagem}%"></div>
+                    </div>
+                    <p class="grupo-progresso-texto">${entregues} de ${total} trabalhos entregues</p>
+                </div>
+                <div class="grupo-lado">
+                    <span class="status ${statusClasse}">${statusTexto}</span>
+                    <div class="grupo-controles">
+                        <button type="button" class="btn-progresso" data-acao="diminuir" ${entregues <= 0 ? 'disabled' : ''} title="Diminuir 1 trabalho entregue">−</button>
+                        <button type="button" class="btn-progresso" data-acao="aumentar" ${entregues >= total ? 'disabled' : ''} title="Marcar mais 1 trabalho como entregue">+</button>
+                    </div>
+                    <button type="button" class="btn-excluir-grupo" data-acao="excluir">Excluir grupo</button>
+                </div>
+            `;
+
+            const grupoRef = doc(db, 'grupos', id);
+
+            card.querySelector('[data-acao="aumentar"]').addEventListener('click', function () {
+                updateDoc(grupoRef, { trabalhosEntregues: Math.min(entregues + 1, total) });
+            });
+
+            card.querySelector('[data-acao="diminuir"]').addEventListener('click', function () {
+                updateDoc(grupoRef, { trabalhosEntregues: Math.max(entregues - 1, 0) });
+            });
+
+            card.querySelector('[data-acao="excluir"]').addEventListener('click', function () {
+                if (confirm(`Excluir "${grupo.nome}"? Essa ação não pode ser desfeita.`)) {
+                    deleteDoc(grupoRef);
+                }
+            });
+
+            return card;
+        }
+
+        function escutarGrupos() {
+            const q = query(collection(db, 'grupos'), orderBy('criadoEm', 'desc'));
+
+            onSnapshot(q, function (snapshot) {
+                listaGrupos.innerHTML = '';
+
+                if (snapshot.empty) {
+                    listaGrupos.innerHTML = '<p class="carregando">Nenhum grupo cadastrado ainda. Clique em "Adicionar grupo" para criar o primeiro.</p>';
+                    return;
+                }
+
+                snapshot.forEach(function (docSnap) {
+                    listaGrupos.appendChild(criarCardGrupo(docSnap.id, docSnap.data()));
+                });
+            }, function (erro) {
+                listaGrupos.innerHTML = '<p class="carregando">Não foi possível carregar os grupos agora.</p>';
+                console.error('Erro ao escutar grupos:', erro);
+            });
+        }
+
+        // ----- Modal de novo grupo -----
+
+        const modalGrupo = document.getElementById('modalGrupo');
+        const btnAbrirModalGrupo = document.getElementById('btnAbrirModalGrupo');
+        const btnFecharModalGrupo = document.getElementById('btnFecharModalGrupo');
+        const btnCancelarGrupo = document.getElementById('btnCancelarGrupo');
+        const formGrupo = document.getElementById('formGrupo');
+        const modalGrupoErro = document.getElementById('modalGrupoErro');
+        const btnSalvarGrupo = document.getElementById('btnSalvarGrupo');
+
+        function abrirModalGrupo() {
+            modalGrupoErro.classList.remove('visivel');
+            modalGrupoErro.textContent = '';
+            formGrupo.reset();
+            document.getElementById('inputTotalTrabalhos').value = 3;
+            modalGrupo.classList.add('aberto');
+            document.getElementById('inputNomeGrupo').focus();
+        }
+
+        function fecharModalGrupo() {
+            modalGrupo.classList.remove('aberto');
+        }
+
+        btnAbrirModalGrupo.addEventListener('click', abrirModalGrupo);
+        btnFecharModalGrupo.addEventListener('click', fecharModalGrupo);
+        btnCancelarGrupo.addEventListener('click', fecharModalGrupo);
+
+        // Fecha clicando fora da caixa do modal
+        modalGrupo.addEventListener('click', function (evento) {
+            if (evento.target === modalGrupo) {
+                fecharModalGrupo();
+            }
+        });
+
+        formGrupo.addEventListener('submit', async function (evento) {
+            evento.preventDefault();
+            modalGrupoErro.classList.remove('visivel');
+
+            const nome = document.getElementById('inputNomeGrupo').value.trim();
+            const alunos = processarListaAlunos(document.getElementById('inputAlunosGrupo').value);
+            const totalTrabalhos = Number(document.getElementById('inputTotalTrabalhos').value);
+
+            if (!nome) {
+                modalGrupoErro.textContent = 'Digite o nome do grupo.';
+                modalGrupoErro.classList.add('visivel');
+                return;
+            }
+
+            if (alunos.length === 0) {
+                modalGrupoErro.textContent = 'Adicione pelo menos um aluno.';
+                modalGrupoErro.classList.add('visivel');
+                return;
+            }
+
+            if (!totalTrabalhos || totalTrabalhos < 1) {
+                modalGrupoErro.textContent = 'O número de trabalhos planejados deve ser pelo menos 1.';
+                modalGrupoErro.classList.add('visivel');
+                return;
+            }
+
+            btnSalvarGrupo.disabled = true;
+            btnSalvarGrupo.textContent = 'Salvando...';
+
+            try {
+                await addDoc(collection(db, 'grupos'), {
+                    nome: nome,
+                    alunos: alunos,
+                    trabalhosTotal: totalTrabalhos,
+                    trabalhosEntregues: 0,
+                    professorId: auth.currentUser ? auth.currentUser.uid : null,
+                    criadoEm: serverTimestamp()
+                });
+
+                fecharModalGrupo();
+            } catch (erro) {
+                modalGrupoErro.textContent = 'Não foi possível salvar o grupo. Tente novamente.';
+                modalGrupoErro.classList.add('visivel');
+                console.error('Erro ao salvar grupo:', erro);
+            } finally {
+                btnSalvarGrupo.disabled = false;
+                btnSalvarGrupo.textContent = 'Salvar grupo';
+            }
+        });
+
+        // ===================================================
+        // AUTENTICAÇÃO
+        // ===================================================
+
         onAuthStateChanged(auth, function (user) {
             if (!user) {
                 window.location.href = "login.html";
@@ -373,9 +575,10 @@
             perfilEmail.textContent = user.email || '—';
             perfilAvatar.textContent = nomeExibido.charAt(0).toUpperCase();
 
-            const q = query(collection(db, "trabalhos"), where("tipo", "==", "individual"));
+            // Trabalhos individuais em tempo real
+            const qIndividuais = query(collection(db, "trabalhos"), where("tipo", "==", "individual"));
 
-            onSnapshot(q, function (snapshot) {
+            onSnapshot(qIndividuais, function (snapshot) {
                 const lista = document.getElementById('listaIndividuais');
                 lista.innerHTML = "";
 
@@ -389,6 +592,9 @@
                     lista.appendChild(criarCardIndividual(trabalho));
                 });
             });
+
+            // Grupos em tempo real
+            escutarGrupos();
         });
     </script>
 
