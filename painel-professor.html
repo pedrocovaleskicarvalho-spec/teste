@@ -61,69 +61,33 @@
 
                 <section class="resumo">
                     <div class="resumo-card">
-                        <span class="resumo-numero">3</span>
+                        <span class="resumo-numero" id="resumoGruposAtivos">0</span>
                         <span class="resumo-label">Grupos ativos</span>
                     </div>
                     <div class="resumo-card">
-                        <span class="resumo-numero">8</span>
+                        <span class="resumo-numero" id="resumoAlunosTotal">0</span>
                         <span class="resumo-label">Alunos no total</span>
                     </div>
                     <div class="resumo-card resumo-atencao">
-                        <span class="resumo-numero">3</span>
+                        <span class="resumo-numero" id="resumoPendencias">0</span>
                         <span class="resumo-label">Trabalhos com pendência</span>
                     </div>
                     <div class="resumo-card resumo-entregue">
-                        <span class="resumo-numero">5</span>
+                        <span class="resumo-numero" id="resumoEmDia">0</span>
                         <span class="resumo-label">Trabalhos em dia</span>
                     </div>
                 </section>
 
-                <section class="alerta">
+                <section class="alerta" id="alertaInicio" style="display: none;">
                     <span class="alerta-icone">⚠️</span>
-                    <p><strong>2 alunos</strong> ainda não entregaram "Resumo de Biologia - Capítulo 4"</p>
+                    <p id="alertaTexto"></p>
                 </section>
 
                 <section class="secao-grupos">
                     <h2 class="secao-titulo">Meus Grupos</h2>
 
-                    <div class="lista-grupos">
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Grupo do João</h3>
-                                <p class="grupo-alunos">👥 3 alunos — Enzo, Ezekiel, Pedro</p>
-                                <div class="barra-progresso">
-                                    <div class="barra-preenchida" style="width: 66%"></div>
-                                </div>
-                                <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
-                            </div>
-                            <span class="status status-andamento">Em andamento</span>
-                        </article>
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Grupo da Ana</h3>
-                                <p class="grupo-alunos">👥 3 alunos — Lucas, João, Plovas</p>
-                                <div class="barra-progresso">
-                                    <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
-                                </div>
-                                <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
-                            </div>
-                            <span class="status status-pendente">Atenção</span>
-                        </article>
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Grupo do Rafael</h3>
-                                <p class="grupo-alunos">👥 2 alunos — Anthony, Gabriel</p>
-                                <div class="barra-progresso">
-                                    <div class="barra-preenchida barra-completa" style="width: 100%"></div>
-                                </div>
-                                <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
-                            </div>
-                            <span class="status status-entregue">Concluído</span>
-                        </article>
-
+                    <div class="lista-grupos" id="listaGruposInicio">
+                        <p class="carregando">Carregando grupos...</p>
                     </div>
                 </section>
 
@@ -374,6 +338,12 @@
         // ===================================================
 
         const listaGrupos = document.getElementById('listaGrupos');
+        const listaGruposInicio = document.getElementById('listaGruposInicio');
+
+        // Guarda os dados mais recentes vindos do Firestore, para que
+        // "Início" e "Meus Grupos" sempre mostrem exatamente a mesma coisa
+        let gruposCache = [];
+        let individuaisCache = [];
 
         // Escapa texto simples para não quebrar o HTML ao renderizar
         function escaparTexto(texto) {
@@ -451,22 +421,92 @@
             return card;
         }
 
+        // Desenha a mesma lista de grupos nos dois lugares (Início e Meus Grupos),
+        // sempre a partir do mesmo gruposCache — assim os dois nunca ficam diferentes.
+        function renderizarGrupos() {
+            [listaGrupos, listaGruposInicio].forEach(function (container) {
+                if (!container) return;
+
+                container.innerHTML = '';
+
+                if (gruposCache.length === 0) {
+                    container.innerHTML = '<p class="carregando">Nenhum grupo cadastrado ainda. Clique em "Adicionar grupo" para criar o primeiro.</p>';
+                    return;
+                }
+
+                gruposCache.forEach(function (item) {
+                    container.appendChild(criarCardGrupo(item.id, item.dados));
+                });
+            });
+
+            atualizarResumoEAlerta();
+        }
+
+        // Recalcula os cards de resumo e o alerta do Início com base nos
+        // dados reais dos grupos + trabalhos individuais (nunca números fixos)
+        function atualizarResumoEAlerta() {
+            const elGruposAtivos = document.getElementById('resumoGruposAtivos');
+            const elAlunosTotal = document.getElementById('resumoAlunosTotal');
+            const elPendencias = document.getElementById('resumoPendencias');
+            const elEmDia = document.getElementById('resumoEmDia');
+            const alertaEl = document.getElementById('alertaInicio');
+            const alertaTexto = document.getElementById('alertaTexto');
+
+            if (!elGruposAtivos) return;
+
+            const grupos = gruposCache.map(function (item) { return item.dados; });
+
+            const gruposAtivos = grupos.length;
+            const alunosTotal = grupos.reduce(function (soma, g) {
+                return soma + (Array.isArray(g.alunos) ? g.alunos.length : 0);
+            }, 0);
+
+            let pendenciasGrupos = 0;
+            let entreguesGrupos = 0;
+            const gruposEmAtencao = [];
+
+            grupos.forEach(function (g) {
+                const total = Math.max(1, Number(g.trabalhosTotal) || 1);
+                const entregues = Math.min(Math.max(0, Number(g.trabalhosEntregues) || 0), total);
+                pendenciasGrupos += (total - entregues);
+                entreguesGrupos += entregues;
+
+                const porcentagem = (entregues / total) * 100;
+                if (entregues < total && porcentagem < 40) {
+                    gruposEmAtencao.push(g.nome || 'Grupo sem nome');
+                }
+            });
+
+            const pendenciasIndividuais = individuaisCache.filter(function (t) { return t.status !== 'entregue'; }).length;
+            const entreguesIndividuais = individuaisCache.filter(function (t) { return t.status === 'entregue'; }).length;
+
+            elGruposAtivos.textContent = gruposAtivos;
+            elAlunosTotal.textContent = alunosTotal;
+            elPendencias.textContent = pendenciasGrupos + pendenciasIndividuais;
+            elEmDia.textContent = entreguesGrupos + entreguesIndividuais;
+
+            if (gruposEmAtencao.length === 0) {
+                alertaEl.style.display = 'none';
+            } else if (gruposEmAtencao.length === 1) {
+                alertaEl.style.display = 'flex';
+                alertaTexto.innerHTML = `<strong>${escaparTexto(gruposEmAtencao[0])}</strong> está com poucas entregas — vale dar uma olhada.`;
+            } else {
+                alertaEl.style.display = 'flex';
+                alertaTexto.innerHTML = `<strong>${gruposEmAtencao.length} grupos</strong> estão com poucas entregas: ${escaparTexto(gruposEmAtencao.join(', '))}.`;
+            }
+        }
+
         function escutarGrupos() {
             const q = query(collection(db, 'grupos'), orderBy('criadoEm', 'desc'));
 
             onSnapshot(q, function (snapshot) {
-                listaGrupos.innerHTML = '';
-
-                if (snapshot.empty) {
-                    listaGrupos.innerHTML = '<p class="carregando">Nenhum grupo cadastrado ainda. Clique em "Adicionar grupo" para criar o primeiro.</p>';
-                    return;
-                }
-
-                snapshot.forEach(function (docSnap) {
-                    listaGrupos.appendChild(criarCardGrupo(docSnap.id, docSnap.data()));
+                gruposCache = snapshot.docs.map(function (docSnap) {
+                    return { id: docSnap.id, dados: docSnap.data() };
                 });
+                renderizarGrupos();
             }, function (erro) {
                 listaGrupos.innerHTML = '<p class="carregando">Não foi possível carregar os grupos agora.</p>';
+                listaGruposInicio.innerHTML = '<p class="carregando">Não foi possível carregar os grupos agora.</p>';
                 console.error('Erro ao escutar grupos:', erro);
             });
         }
@@ -579,18 +619,21 @@
             const qIndividuais = query(collection(db, "trabalhos"), where("tipo", "==", "individual"));
 
             onSnapshot(qIndividuais, function (snapshot) {
+                individuaisCache = snapshot.docs.map(function (docSnap) { return docSnap.data(); });
+
                 const lista = document.getElementById('listaIndividuais');
                 lista.innerHTML = "";
 
                 if (snapshot.empty) {
                     lista.innerHTML = '<p class="carregando">Nenhum trabalho individual cadastrado ainda.</p>';
-                    return;
+                } else {
+                    snapshot.forEach(function (docSnap) {
+                        const trabalho = docSnap.data();
+                        lista.appendChild(criarCardIndividual(trabalho));
+                    });
                 }
 
-                snapshot.forEach(function (docSnap) {
-                    const trabalho = docSnap.data();
-                    lista.appendChild(criarCardIndividual(trabalho));
-                });
+                atualizarResumoEAlerta();
             });
 
             // Grupos em tempo real
