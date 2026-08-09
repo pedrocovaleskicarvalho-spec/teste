@@ -27,9 +27,9 @@
                     <span class="nav-icon">👥</span>
                     <span class="nav-texto">Meus Grupos</span>
                 </button>
-                <button type="button" class="nav-item" data-view="trabalhos">
-                    <span class="nav-icon">📋</span>
-                    <span class="nav-texto">Trabalhos Criados</span>
+                <button type="button" class="nav-item" data-view="orcamentos">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-texto">Orçamentos da Turma</span>
                 </button>
                 <button type="button" class="nav-item" data-view="perfil">
                     <span class="nav-icon">👤</span>
@@ -117,39 +117,97 @@
                 </section>
             </div>
 
-            <!-- ===== VIEW: TRABALHOS CRIADOS ===== -->
-            <div class="view" id="view-trabalhos">
-                <section class="secao-grupos">
-                    <h2 class="secao-titulo">Trabalhos que você criou</h2>
+            <!-- ===== VIEW: ORÇAMENTOS DA TURMA ===== -->
+            <div class="view" id="view-orcamentos">
 
-                    <div class="lista-grupos">
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Resumo de Biologia - Capítulo 4</h3>
-                                <p class="grupo-alunos">📌 Grupo do João — prazo: 15/08/2026</p>
-                            </div>
-                            <span class="status status-pendente">Atenção</span>
-                        </article>
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Exercícios de Matemática - Lista 3</h3>
-                                <p class="grupo-alunos">📌 Grupo da Ana — prazo: 20/08/2026</p>
-                            </div>
-                            <span class="status status-andamento">Em andamento</span>
-                        </article>
-
-                        <article class="grupo-card">
-                            <div class="grupo-info">
-                                <h3 class="grupo-titulo">Redação sobre Meio Ambiente</h3>
-                                <p class="grupo-alunos">📌 Grupo do Rafael — prazo: 05/08/2026</p>
-                            </div>
-                            <span class="status status-entregue">Concluído</span>
-                        </article>
-
+                <section class="resumo">
+                    <div class="stat-card stat-roxo">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="resumoTotalFases">0</span>
+                            <span class="stat-icone">📅</span>
+                        </div>
+                        <span class="stat-label">Total de Fases</span>
+                    </div>
+                    <div class="stat-card stat-roxo">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="resumoDuracaoMedia">0sem</span>
+                            <span class="stat-icone">⏱️</span>
+                        </div>
+                        <span class="stat-label">Duração Média</span>
+                    </div>
+                    <div class="stat-card stat-verde">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="resumoOrcamentoTotal">R$ 0,00</span>
+                            <span class="stat-icone">💲</span>
+                        </div>
+                        <span class="stat-label">Orçamento Total</span>
+                    </div>
+                    <div class="stat-card stat-laranja">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="resumoComprometidoMedio">0%</span>
+                            <span class="stat-icone">📈</span>
+                        </div>
+                        <span class="stat-label">Comprometido Médio</span>
                     </div>
                 </section>
+
+                <section class="painel-card">
+                    <h2 class="secao-titulo">Comparação de Orçamentos</h2>
+                    <p class="painel-subtexto">Duração x custo estimado por grupo</p>
+
+                    <div class="grafico-orcamentos" id="graficoOrcamentos">
+                        <p class="carregando">Carregando dados...</p>
+                    </div>
+
+                    <div class="grafico-legenda">
+                        <span class="grafico-legenda-item"><span class="legenda-bolinha legenda-duracao"></span> Duração (semanas)</span>
+                        <span class="grafico-legenda-item"><span class="legenda-bolinha legenda-custo"></span> Orçamento (R$)</span>
+                    </div>
+                </section>
+
+                <section class="painel-card">
+                    <h2 class="secao-titulo">Visão Geral - Planos Cronogramas Físico-Financeiros</h2>
+                    <p class="painel-subtexto">Acompanhe o planejamento de tempo e o custo de cada grupo</p>
+
+                    <div class="resumo-turma">
+                        <span class="resumo-turma-icone">📊</span>
+                        <div class="resumo-turma-texto">
+                            <strong>Resumo da Turma</strong>
+                            <p id="resumoTurmaGrupos">0 de 0 grupos criaram seu cronograma</p>
+                            <p id="resumoTurmaOrcamento">Orçamento total planejado: R$ 0,00</p>
+                            <p id="resumoTurmaDuracao">Duração média: 0 semanas</p>
+                        </div>
+                    </div>
+
+                    <table class="tabela-orcamentos">
+                        <thead>
+                            <tr>
+                                <th>Grupo</th>
+                                <th>Alunos</th>
+                                <th>Fases</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoTabelaOrcamentos">
+                            <tr><td colspan="3" class="carregando">Carregando...</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="resumo resumo-orcamentos-min-max">
+                    <div class="stat-card stat-roxo">
+                        <span class="stat-numero" id="menorOrcamento">R$ 0,00</span>
+                        <span class="stat-label">Menor Orçamento</span>
+                    </div>
+                    <div class="stat-card stat-verde">
+                        <span class="stat-numero" id="orcamentoMedioValor">R$ 0,00</span>
+                        <span class="stat-label">Orçamento Médio</span>
+                    </div>
+                    <div class="stat-card stat-laranja">
+                        <span class="stat-numero" id="maiorOrcamento">R$ 0,00</span>
+                        <span class="stat-label">Maior Orçamento</span>
+                    </div>
+                </section>
+
             </div>
 
             <!-- ===== VIEW: PERFIL ===== -->
@@ -211,6 +269,24 @@
                     <small>Usado para calcular a barra de progresso (ex: 3 trabalhos no total).</small>
                 </div>
 
+                <div class="campo-linha">
+                    <div class="campo">
+                        <label for="inputFasesGrupo">Fases do cronograma</label>
+                        <input type="number" id="inputFasesGrupo" min="1" value="3" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="inputDuracaoGrupo">Duração (semanas)</label>
+                        <input type="number" id="inputDuracaoGrupo" min="1" value="20" required>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="inputOrcamentoGrupo">Orçamento planejado (R$)</label>
+                    <input type="number" id="inputOrcamentoGrupo" min="0" step="0.01" value="0" required>
+                    <small>Usado nos orçamentos da turma (total, média, menor e maior).</small>
+                </div>
+
                 <div class="modal-acoes">
                     <button type="button" class="btn-secundario" id="btnCancelarGrupo">Cancelar</button>
                     <button type="submit" class="btn-primario" id="btnSalvarGrupo">Salvar grupo</button>
@@ -243,9 +319,9 @@
                 titulo: 'Meus Grupos',
                 subtitulo: 'Acompanhe todos os seus grupos e o progresso de cada um'
             },
-            trabalhos: {
-                titulo: 'Trabalhos Criados',
-                subtitulo: 'Veja todos os trabalhos que você criou'
+            orcamentos: {
+                titulo: 'Orçamentos da Turma',
+                subtitulo: 'Planejamento de tempo e custo de cada grupo'
             },
             perfil: {
                 titulo: 'Perfil',
@@ -440,6 +516,119 @@
             });
 
             atualizarResumoEAlerta();
+            renderizarOrcamentos();
+        }
+
+        // Formata um número como moeda brasileira (R$)
+        function formatarMoeda(valor) {
+            return (Number(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Desenha as barras de "Duração x custo estimado" por grupo
+        function desenharGraficoOrcamentos(grupos) {
+            const container = document.getElementById('graficoOrcamentos');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            if (grupos.length === 0) {
+                container.innerHTML = '<p class="carregando">Sem grupos para comparar ainda.</p>';
+                return;
+            }
+
+            const maxDuracao = Math.max(1, ...grupos.map(function (g) { return Number(g.duracaoSemanas) || 0; }));
+            const maxOrcamento = Math.max(1, ...grupos.map(function (g) { return Number(g.orcamento) || 0; }));
+
+            grupos.forEach(function (g) {
+                const duracao = Number(g.duracaoSemanas) || 0;
+                const orcamento = Number(g.orcamento) || 0;
+                const alturaDuracao = Math.round((duracao / maxDuracao) * 100);
+                const alturaOrcamento = Math.round((orcamento / maxOrcamento) * 100);
+
+                const coluna = document.createElement('div');
+                coluna.className = 'grafico-coluna';
+                coluna.innerHTML = `
+                    <div class="grafico-barras">
+                        <div class="grafico-barra grafico-barra-duracao" style="height: ${alturaDuracao}%" title="Duração: ${duracao} semanas"></div>
+                        <div class="grafico-barra grafico-barra-orcamento" style="height: ${alturaOrcamento}%" title="Orçamento: ${formatarMoeda(orcamento)}"></div>
+                    </div>
+                    <span class="grafico-coluna-nome">${escaparTexto(g.nome || 'Grupo')}</span>
+                `;
+                container.appendChild(coluna);
+            });
+        }
+
+        // Recalcula todo o painel de "Orçamentos da Turma" a partir do gruposCache —
+        // ou seja, a partir dos mesmos grupos mostrados em Início e Meus Grupos.
+        function renderizarOrcamentos() {
+            const elTotalFases = document.getElementById('resumoTotalFases');
+            if (!elTotalFases) return; // view ainda não está no DOM
+
+            const grupos = gruposCache.map(function (item) { return item.dados; });
+            const totalGrupos = grupos.length;
+
+            const gruposComCronograma = grupos.filter(function (g) {
+                return (Number(g.fases) || 0) > 0 && (Number(g.orcamento) || 0) > 0;
+            }).length;
+
+            const totalFases = grupos.reduce(function (soma, g) { return soma + (Number(g.fases) || 0); }, 0);
+            const duracaoMedia = totalGrupos
+                ? Math.round(grupos.reduce(function (soma, g) { return soma + (Number(g.duracaoSemanas) || 0); }, 0) / totalGrupos)
+                : 0;
+            const orcamentoTotal = grupos.reduce(function (soma, g) { return soma + (Number(g.orcamento) || 0); }, 0);
+
+            const comprometidos = grupos.map(function (g) {
+                const total = Math.max(1, Number(g.trabalhosTotal) || 1);
+                const entregues = Math.min(Math.max(0, Number(g.trabalhosEntregues) || 0), total);
+                return (entregues / total) * 100;
+            });
+            const comprometidoMedio = comprometidos.length
+                ? Math.round(comprometidos.reduce(function (a, b) { return a + b; }, 0) / comprometidos.length)
+                : 0;
+
+            elTotalFases.textContent = totalFases;
+            document.getElementById('resumoDuracaoMedia').textContent = duracaoMedia + 'sem';
+            document.getElementById('resumoOrcamentoTotal').textContent = formatarMoeda(orcamentoTotal);
+            document.getElementById('resumoComprometidoMedio').textContent = comprometidoMedio + '%';
+
+            document.getElementById('resumoTurmaGrupos').textContent =
+                `${gruposComCronograma} de ${totalGrupos} grupo${totalGrupos === 1 ? '' : 's'} ${gruposComCronograma === 1 ? 'criou' : 'criaram'} seu cronograma`;
+            document.getElementById('resumoTurmaOrcamento').textContent = `Orçamento total planejado: ${formatarMoeda(orcamentoTotal)}`;
+            document.getElementById('resumoTurmaDuracao').textContent = `Duração média: ${duracaoMedia} semanas`;
+
+            const corpoTabela = document.getElementById('corpoTabelaOrcamentos');
+            corpoTabela.innerHTML = '';
+
+            if (totalGrupos === 0) {
+                corpoTabela.innerHTML = '<tr><td colspan="3" class="carregando">Nenhum grupo cadastrado ainda.</td></tr>';
+            } else {
+                grupos.forEach(function (g) {
+                    const alunos = Array.isArray(g.alunos) ? g.alunos.length : 0;
+                    const linha = document.createElement('tr');
+                    linha.innerHTML = `
+                        <td>${escaparTexto(g.nome || 'Grupo sem nome')}</td>
+                        <td>👥 ${alunos}</td>
+                        <td>${Number(g.fases) || 0} Fases</td>
+                    `;
+                    corpoTabela.appendChild(linha);
+                });
+            }
+
+            const orcamentosValidos = grupos
+                .map(function (g) { return Number(g.orcamento) || 0; })
+                .filter(function (v) { return v > 0; });
+
+            const menor = orcamentosValidos.length ? Math.min.apply(null, orcamentosValidos) : 0;
+            const maior = orcamentosValidos.length ? Math.max.apply(null, orcamentosValidos) : 0;
+            const media = orcamentosValidos.length
+                ? orcamentosValidos.reduce(function (a, b) { return a + b; }, 0) / orcamentosValidos.length
+                : 0;
+
+            document.getElementById('menorOrcamento').textContent = formatarMoeda(menor);
+            document.getElementById('orcamentoMedioValor').textContent = formatarMoeda(media);
+            document.getElementById('maiorOrcamento').textContent = formatarMoeda(maior);
+
+            desenharGraficoOrcamentos(grupos);
         }
 
         // Recalcula os cards de resumo e o alerta do Início com base nos
@@ -526,6 +715,9 @@
             modalGrupoErro.textContent = '';
             formGrupo.reset();
             document.getElementById('inputTotalTrabalhos').value = 3;
+            document.getElementById('inputFasesGrupo').value = 3;
+            document.getElementById('inputDuracaoGrupo').value = 20;
+            document.getElementById('inputOrcamentoGrupo').value = 0;
             modalGrupo.classList.add('aberto');
             document.getElementById('inputNomeGrupo').focus();
         }
@@ -552,6 +744,9 @@
             const nome = document.getElementById('inputNomeGrupo').value.trim();
             const alunos = processarListaAlunos(document.getElementById('inputAlunosGrupo').value);
             const totalTrabalhos = Number(document.getElementById('inputTotalTrabalhos').value);
+            const fases = Number(document.getElementById('inputFasesGrupo').value);
+            const duracaoSemanas = Number(document.getElementById('inputDuracaoGrupo').value);
+            const orcamento = Number(document.getElementById('inputOrcamentoGrupo').value);
 
             if (!nome) {
                 modalGrupoErro.textContent = 'Digite o nome do grupo.';
@@ -571,6 +766,24 @@
                 return;
             }
 
+            if (!fases || fases < 1) {
+                modalGrupoErro.textContent = 'O número de fases do cronograma deve ser pelo menos 1.';
+                modalGrupoErro.classList.add('visivel');
+                return;
+            }
+
+            if (!duracaoSemanas || duracaoSemanas < 1) {
+                modalGrupoErro.textContent = 'A duração deve ser de pelo menos 1 semana.';
+                modalGrupoErro.classList.add('visivel');
+                return;
+            }
+
+            if (orcamento < 0 || Number.isNaN(orcamento)) {
+                modalGrupoErro.textContent = 'Digite um orçamento válido.';
+                modalGrupoErro.classList.add('visivel');
+                return;
+            }
+
             btnSalvarGrupo.disabled = true;
             btnSalvarGrupo.textContent = 'Salvando...';
 
@@ -580,6 +793,9 @@
                     alunos: alunos,
                     trabalhosTotal: totalTrabalhos,
                     trabalhosEntregues: 0,
+                    fases: fases,
+                    duracaoSemanas: duracaoSemanas,
+                    orcamento: orcamento,
                     professorId: auth.currentUser ? auth.currentUser.uid : null,
                     criadoEm: serverTimestamp()
                 });
