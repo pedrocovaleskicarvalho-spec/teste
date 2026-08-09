@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Grupos - TungProject</title>
     <link rel="stylesheet" href="painel-professor.css">
 </head>
- 
+
 <body>
- 
+
     <div class="app">
- 
+
         <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-topo">
                 <span class="sidebar-logo">TungProject</span>
             </div>
- 
+
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item ativo">
+                <button type="button" class="nav-item ativo" data-view="inicio">
                     <span class="nav-icon">🏠</span>
                     <span class="nav-texto">Início</span>
-                </a>
-                <a href="#" class="nav-item">
+                </button>
+                <button type="button" class="nav-item" data-view="grupos">
                     <span class="nav-icon">👥</span>
                     <span class="nav-texto">Meus Grupos</span>
-                </a>
-                <a href="#" class="nav-item">
+                </button>
+                <button type="button" class="nav-item" data-view="trabalhos">
                     <span class="nav-icon">📋</span>
                     <span class="nav-texto">Trabalhos Criados</span>
-                </a>
-                <a href="#" class="nav-item">
+                </button>
+                <button type="button" class="nav-item" data-view="perfil">
                     <span class="nav-icon">👤</span>
                     <span class="nav-texto">Perfil</span>
-                </a>
+                </button>
             </nav>
- 
+
             <div class="sidebar-rodape">
                 <a href="index.html" class="nav-item sair">
                     <span class="nav-icon">←</span>
@@ -44,112 +44,274 @@
                 </a>
             </div>
         </aside>
- 
+
         <!-- ===== CONTEÚDO PRINCIPAL ===== -->
         <div class="conteudo">
- 
+
             <header class="topo">
                 <button class="btn-menu" id="btnMenu" aria-label="Abrir menu">☰</button>
                 <div class="topo-texto">
-                    <h1>Olá, professor</h1>
-                    <p>Aqui está o progresso dos seus grupos</p>
+                    <h1 id="topoTitulo">Olá, professor</h1>
+                    <p id="topoSubtitulo">Aqui está o progresso dos seus grupos</p>
                 </div>
             </header>
- 
-            <!-- ===== CARDS DE RESUMO ===== -->
-            <section class="resumo">
-                <div class="resumo-card">
-                    <span class="resumo-numero">3</span>
-                    <span class="resumo-label">Grupos ativos</span>
-                </div>
-                <div class="resumo-card">
-                    <span class="resumo-numero">8</span>
-                    <span class="resumo-label">Alunos no total</span>
-                </div>
-                <div class="resumo-card resumo-atencao">
-                    <span class="resumo-numero">3</span>
-                    <span class="resumo-label">Trabalhos com pendência</span>
-                </div>
-                <div class="resumo-card resumo-entregue">
-                    <span class="resumo-numero">5</span>
-                    <span class="resumo-label">Trabalhos em dia</span>
-                </div>
-            </section>
- 
-            <!-- ===== ALERTA ===== -->
-            <section class="alerta">
-                <span class="alerta-icone">⚠️</span>
-                <p><strong>2 alunos</strong> ainda não entregaram "Resumo de Biologia - Capítulo 4"</p>
-            </section>
- 
-            <!-- ===== LISTA DE GRUPOS ===== -->
-            <section class="secao-grupos">
-                <h2 class="secao-titulo">Meus Grupos</h2>
- 
-                <div class="lista-grupos">
- 
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Grupo do João</h3>
-                            <p class="grupo-alunos">👥 3 alunos — Enzo, Ezekiel, Pedro</p>
-                            <div class="barra-progresso">
-                                <div class="barra-preenchida" style="width: 66%"></div>
+
+            <!-- ===== VIEW: INÍCIO ===== -->
+            <div class="view ativa" id="view-inicio">
+
+                <section class="resumo">
+                    <div class="resumo-card">
+                        <span class="resumo-numero">3</span>
+                        <span class="resumo-label">Grupos ativos</span>
+                    </div>
+                    <div class="resumo-card">
+                        <span class="resumo-numero">8</span>
+                        <span class="resumo-label">Alunos no total</span>
+                    </div>
+                    <div class="resumo-card resumo-atencao">
+                        <span class="resumo-numero">3</span>
+                        <span class="resumo-label">Trabalhos com pendência</span>
+                    </div>
+                    <div class="resumo-card resumo-entregue">
+                        <span class="resumo-numero">5</span>
+                        <span class="resumo-label">Trabalhos em dia</span>
+                    </div>
+                </section>
+
+                <section class="alerta">
+                    <span class="alerta-icone">⚠️</span>
+                    <p><strong>2 alunos</strong> ainda não entregaram "Resumo de Biologia - Capítulo 4"</p>
+                </section>
+
+                <section class="secao-grupos">
+                    <h2 class="secao-titulo">Meus Grupos</h2>
+
+                    <div class="lista-grupos">
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Grupo do João</h3>
+                                <p class="grupo-alunos">👥 3 alunos — Enzo, Ezekiel, Pedro</p>
+                                <div class="barra-progresso">
+                                    <div class="barra-preenchida" style="width: 66%"></div>
+                                </div>
+                                <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
                             </div>
-                            <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
-                        </div>
-                        <span class="status status-andamento">Em andamento</span>
-                    </article>
- 
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Grupo da Ana</h3>
-                            <p class="grupo-alunos">👥 3 alunos — Lucas, João, Plovas</p>
-                            <div class="barra-progresso">
-                                <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
+                            <span class="status status-andamento">Em andamento</span>
+                        </article>
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Grupo da Ana</h3>
+                                <p class="grupo-alunos">👥 3 alunos — Lucas, João, Plovas</p>
+                                <div class="barra-progresso">
+                                    <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
+                                </div>
+                                <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
                             </div>
-                            <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
-                        </div>
-                        <span class="status status-pendente">Atenção</span>
-                    </article>
- 
-                    <article class="grupo-card">
-                        <div class="grupo-info">
-                            <h3 class="grupo-titulo">Grupo do Rafael</h3>
-                            <p class="grupo-alunos">👥 2 alunos — Anthony, Gabriel</p>
-                            <div class="barra-progresso">
-                                <div class="barra-preenchida barra-completa" style="width: 100%"></div>
+                            <span class="status status-pendente">Atenção</span>
+                        </article>
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Grupo do Rafael</h3>
+                                <p class="grupo-alunos">👥 2 alunos — Anthony, Gabriel</p>
+                                <div class="barra-progresso">
+                                    <div class="barra-preenchida barra-completa" style="width: 100%"></div>
+                                </div>
+                                <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
                             </div>
-                            <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
+                            <span class="status status-entregue">Concluído</span>
+                        </article>
+
+                    </div>
+                </section>
+
+                <section class="secao-grupos">
+                    <h2 class="secao-titulo">Trabalhos Individuais</h2>
+
+                    <div class="lista-grupos" id="listaIndividuais">
+                        <p class="carregando" id="msgCarregando">Carregando trabalhos...</p>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ===== VIEW: MEUS GRUPOS ===== -->
+            <div class="view" id="view-grupos">
+                <section class="secao-grupos">
+                    <h2 class="secao-titulo">Todos os grupos</h2>
+
+                    <div class="lista-grupos">
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Grupo do João <span class="tipo-tag tipo-grupo">Grupo</span></h3>
+                                <p class="grupo-alunos">👥 3 alunos — Enzo, Ezekiel, Pedro</p>
+                                <div class="barra-progresso">
+                                    <div class="barra-preenchida" style="width: 66%"></div>
+                                </div>
+                                <p class="grupo-progresso-texto">2 de 3 trabalhos entregues</p>
+                            </div>
+                            <span class="status status-andamento">Em andamento</span>
+                        </article>
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Grupo da Ana <span class="tipo-tag tipo-grupo">Grupo</span></h3>
+                                <p class="grupo-alunos">👥 3 alunos — Lucas, João, Plovas</p>
+                                <div class="barra-progresso">
+                                    <div class="barra-preenchida barra-atencao" style="width: 33%"></div>
+                                </div>
+                                <p class="grupo-progresso-texto">1 de 3 trabalhos entregues</p>
+                            </div>
+                            <span class="status status-pendente">Atenção</span>
+                        </article>
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Grupo do Rafael <span class="tipo-tag tipo-grupo">Grupo</span></h3>
+                                <p class="grupo-alunos">👥 2 alunos — Anthony, Gabriel</p>
+                                <div class="barra-progresso">
+                                    <div class="barra-preenchida barra-completa" style="width: 100%"></div>
+                                </div>
+                                <p class="grupo-progresso-texto">3 de 3 trabalhos entregues</p>
+                            </div>
+                            <span class="status status-entregue">Concluído</span>
+                        </article>
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===== VIEW: TRABALHOS CRIADOS ===== -->
+            <div class="view" id="view-trabalhos">
+                <section class="secao-grupos">
+                    <h2 class="secao-titulo">Trabalhos que você criou</h2>
+
+                    <div class="lista-grupos">
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Resumo de Biologia - Capítulo 4</h3>
+                                <p class="grupo-alunos">📌 Grupo do João — prazo: 15/08/2026</p>
+                            </div>
+                            <span class="status status-pendente">Atenção</span>
+                        </article>
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Exercícios de Matemática - Lista 3</h3>
+                                <p class="grupo-alunos">📌 Grupo da Ana — prazo: 20/08/2026</p>
+                            </div>
+                            <span class="status status-andamento">Em andamento</span>
+                        </article>
+
+                        <article class="grupo-card">
+                            <div class="grupo-info">
+                                <h3 class="grupo-titulo">Redação sobre Meio Ambiente</h3>
+                                <p class="grupo-alunos">📌 Grupo do Rafael — prazo: 05/08/2026</p>
+                            </div>
+                            <span class="status status-entregue">Concluído</span>
+                        </article>
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===== VIEW: PERFIL ===== -->
+            <div class="view" id="view-perfil">
+                <section class="secao-grupos">
+                    <div class="perfil-card">
+                        <div class="perfil-avatar" id="perfilAvatar">P</div>
+
+                        <div class="perfil-campo">
+                            <label>Nome</label>
+                            <span id="perfilNome">Professor</span>
                         </div>
-                        <span class="status status-entregue">Concluído</span>
-                    </article>
- 
-                </div>
-            </section>
- 
-            <!-- ===== TRABALHOS INDIVIDUAIS ===== -->
-            <section class="secao-grupos">
-                <h2 class="secao-titulo">Trabalhos Individuais</h2>
- 
-                <div class="lista-grupos" id="listaIndividuais">
-                    <p class="carregando" id="msgCarregando">Carregando trabalhos...</p>
-                </div>
-            </section>
- 
+
+                        <div class="perfil-campo">
+                            <label>E-mail</label>
+                            <span id="perfilEmail">—</span>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <label>Grupos ativos</label>
+                            <span>3</span>
+                        </div>
+
+                        <button type="button" class="perfil-botao">Editar perfil</button>
+                    </div>
+                </section>
+            </div>
+
         </div>
- 
+
     </div>
- 
+
     <script>
         // Abre/fecha a sidebar no celular
         const btnMenu = document.getElementById('btnMenu');
         const sidebar = document.getElementById('sidebar');
- 
+
         btnMenu.addEventListener('click', function () {
             sidebar.classList.toggle('aberta');
         });
+
+        // ===== NAVEGAÇÃO ENTRE SEÇÕES (tudo na mesma página/aba) =====
+        const navItens = document.querySelectorAll('.nav-item[data-view]');
+        const views = document.querySelectorAll('.view');
+        const topoTitulo = document.getElementById('topoTitulo');
+        const topoSubtitulo = document.getElementById('topoSubtitulo');
+
+        const textosPorView = {
+            inicio: {
+                titulo: 'Olá, professor',
+                subtitulo: 'Aqui está o progresso dos seus grupos'
+            },
+            grupos: {
+                titulo: 'Meus Grupos',
+                subtitulo: 'Acompanhe todos os seus grupos e o progresso de cada um'
+            },
+            trabalhos: {
+                titulo: 'Trabalhos Criados',
+                subtitulo: 'Veja todos os trabalhos que você criou'
+            },
+            perfil: {
+                titulo: 'Perfil',
+                subtitulo: 'Suas informações pessoais'
+            }
+        };
+
+        function mostrarView(nomeView) {
+            // Atualiza qual botão está marcado como ativo
+            navItens.forEach(function (item) {
+                item.classList.toggle('ativo', item.dataset.view === nomeView);
+            });
+
+            // Mostra só a view escolhida
+            views.forEach(function (view) {
+                view.classList.toggle('ativa', view.id === 'view-' + nomeView);
+            });
+
+            // Atualiza o título/subtítulo do topo
+            const textos = textosPorView[nomeView];
+            if (textos) {
+                topoTitulo.textContent = textos.titulo;
+                topoSubtitulo.textContent = textos.subtitulo;
+            }
+
+            // No celular, fecha a sidebar depois de escolher uma opção
+            sidebar.classList.remove('aberta');
+        }
+
+        navItens.forEach(function (item) {
+            item.addEventListener('click', function () {
+                mostrarView(item.dataset.view);
+            });
+        });
     </script>
- 
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -160,7 +322,7 @@
             where,
             onSnapshot
         } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
- 
+
         const firebaseConfig = {
             apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
             authDomain: "tungproject-8f6cf.firebaseapp.com",
@@ -169,21 +331,21 @@
             messagingSenderId: "602713548775",
             appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
         };
- 
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
- 
+
         function criarCardIndividual(trabalho) {
             const card = document.createElement('article');
             card.className = 'grupo-card';
- 
+
             const statusLabel = {
                 pendente: 'Pendente',
                 andamento: 'Em andamento',
                 entregue: 'Entregue'
             }[trabalho.status] || trabalho.status;
- 
+
             card.innerHTML = `
                 <div class="grupo-info">
                     <h3 class="grupo-titulo">${trabalho.alunoNome} <span class="tipo-tag tipo-individual">Individual</span></h3>
@@ -191,27 +353,37 @@
                 </div>
                 <span class="status status-${trabalho.status}">${statusLabel}</span>
             `;
- 
+
             return card;
         }
- 
+
         onAuthStateChanged(auth, function (user) {
             if (!user) {
                 window.location.href = "login.html";
                 return;
             }
- 
+
+            // Preenche o perfil com os dados do usuário logado
+            const perfilNome = document.getElementById('perfilNome');
+            const perfilEmail = document.getElementById('perfilEmail');
+            const perfilAvatar = document.getElementById('perfilAvatar');
+
+            const nomeExibido = user.displayName || 'Professor';
+            perfilNome.textContent = nomeExibido;
+            perfilEmail.textContent = user.email || '—';
+            perfilAvatar.textContent = nomeExibido.charAt(0).toUpperCase();
+
             const q = query(collection(db, "trabalhos"), where("tipo", "==", "individual"));
- 
+
             onSnapshot(q, function (snapshot) {
                 const lista = document.getElementById('listaIndividuais');
                 lista.innerHTML = "";
- 
+
                 if (snapshot.empty) {
                     lista.innerHTML = '<p class="carregando">Nenhum trabalho individual cadastrado ainda.</p>';
                     return;
                 }
- 
+
                 snapshot.forEach(function (docSnap) {
                     const trabalho = docSnap.data();
                     lista.appendChild(criarCardIndividual(trabalho));
@@ -219,8 +391,7 @@
             });
         });
     </script>
- 
+
 </body>
- 
+
 </html>
- 
