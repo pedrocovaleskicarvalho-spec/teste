@@ -201,6 +201,13 @@ body {
 .secao-cabecalho .secao-titulo {
     margin-bottom: 0;
 }
+
+.secao-cabecalho-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
  
 .secao-titulo {
     font-size: 18px;
