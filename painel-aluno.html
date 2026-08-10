@@ -144,7 +144,10 @@
             collection,
             query,
             where,
-            onSnapshot
+            onSnapshot,
+            doc,
+            getDoc,
+            getDocs
         } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
  
         const firebaseConfig = {
@@ -187,21 +190,74 @@
             return card;
         }
  
-        function atualizarContadores(trabalhosIndividuais) {
+        let trabalhosGrupoCache = [];
+        let trabalhosIndividuaisCache = [];
+
+        function atualizarContadores() {
             let pendente = BASE_PENDENTE, andamento = BASE_ANDAMENTO, entregue = BASE_ENTREGUE;
- 
-            trabalhosIndividuais.forEach(function (t) {
+
+            trabalhosIndividuaisCache.concat(trabalhosGrupoCache).forEach(function (t) {
                 if (t.status === 'pendente') pendente++;
                 else if (t.status === 'andamento') andamento++;
                 else if (t.status === 'entregue') entregue++;
             });
- 
+
             document.getElementById('numPendente').textContent = pendente;
             document.getElementById('numAndamento').textContent = andamento;
             document.getElementById('numEntregue').textContent = entregue;
-            document.getElementById('numTotal').textContent = BASE_TOTAL + trabalhosIndividuais.length;
+            document.getElementById('numTotal').textContent =
+                BASE_TOTAL + trabalhosIndividuaisCache.length + trabalhosGrupoCache.length;
         }
  
+// Descobre a que grupos o aluno pertence (pelo nome salvo em "usuarios")
+        // e escuta em tempo real os trabalhos de grupo desses grupos.
+        async function carregarTrabalhosDeGrupo(uid) {
+            const usuarioSnap = await getDoc(doc(db, 'usuarios', uid));
+            if (!usuarioSnap.exists()) return;
+
+            const meuNome = usuarioSnap.data().nome;
+            if (!meuNome) return;
+
+            const qGrupos = query(collection(db, 'grupos'), where('alunos', 'array-contains', meuNome));
+            const gruposSnap = await getDocs(qGrupos);
+
+            const grupoIds = gruposSnap.docs.map(function (d) { return d.id; });
+            if (grupoIds.length === 0) return;
+
+            const qTrabalhosGrupo = query(
+                collection(db, 'trabalhos'),
+                where('tipo', '==', 'grupo'),
+                where('grupoId', 'in', grupoIds.slice(0, 10))
+            );
+
+            onSnapshot(qTrabalhosGrupo, function (snapshot) {
+                document.querySelectorAll('.trabalho-card[data-grupo="true"]').forEach(function (el) {
+                    el.remove();
+                });
+
+                trabalhosGrupoCache = [];
+
+                snapshot.forEach(function (docSnap) {
+                    const trabalho = docSnap.data();
+                    trabalhosGrupoCache.push(trabalho);
+
+                    const card = criarCardTrabalho(trabalho);
+                    card.setAttribute('data-grupo', 'true');
+
+                    const tag = card.querySelector('.tipo-tag');
+                    tag.textContent = 'Grupo';
+                    tag.classList.remove('tipo-individual');
+                    tag.classList.add('tipo-grupo');
+
+                    if (trabalho.status === 'pendente') document.getElementById('listaPendente').appendChild(card);
+                    else if (trabalho.status === 'andamento') document.getElementById('listaAndamento').appendChild(card);
+                    else if (trabalho.status === 'entregue') document.getElementById('listaEntregue').appendChild(card);
+                });
+
+                atualizarContadores();
+            });
+        }
+
         onAuthStateChanged(auth, function (user) {
             if (!user) {
                 // Ninguém logado, volta pro login
@@ -210,6 +266,7 @@
             }
  
             const q = query(collection(db, "trabalhos"), where("alunoId", "==", user.uid));
+            carregarTrabalhosDeGrupo(user.uid);
  
             onSnapshot(q, function (snapshot) {
                 const listaPendente = document.getElementById('listaPendente');
@@ -235,7 +292,8 @@
                     else if (trabalho.status === 'entregue') listaEntregue.appendChild(card);
                 });
  
-                atualizarContadores(trabalhosIndividuais);
+                trabalhosIndividuaisCache = trabalhosIndividuais;
+                atualizarContadores();
             });
         });
     </script>

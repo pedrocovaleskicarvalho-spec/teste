@@ -77,7 +77,19 @@
                         <span class="resumo-label">Trabalhos em dia</span>
                     </div>
                 </section>
+                
+                <section class="secao-grupos">
+                    <div class="secao-cabecalho">
+                        <h2 class="secao-titulo">Trabalhos dos Grupos</h2>
+                        <button type="button" class="btn-primario" id="btnAbrirModalTrabalho">
+                            <span>+</span> Adicionar trabalho
+                        </button>
+                    </div>
 
+                    <div class="lista-grupos" id="listaTrabalhosGrupo">
+                        <p class="carregando">Carregando trabalhos...</p>
+                    </div>
+                </section>
                 <section class="alerta" id="alertaInicio" style="display: none;">
                     <span class="alerta-icone">⚠️</span>
                     <p id="alertaTexto"></p>
@@ -295,6 +307,66 @@
         </div>
     </div>
 
+<!-- ===== MODAL: ADICIONAR TRABALHO ===== -->
+    <div class="modal-fundo" id="modalTrabalho">
+        <div class="modal-caixa">
+            <div class="modal-cabecalho">
+                <h3>Novo trabalho</h3>
+                <button type="button" class="modal-fechar" id="btnFecharModalTrabalho" aria-label="Fechar">✕</button>
+            </div>
+            <p class="modal-subtexto">Crie um trabalho individual (por e-mail) ou de grupo. Aparece em tempo real no painel do aluno.</p>
+
+            <p class="modal-erro" id="modalTrabalhoErro"></p>
+
+            <form id="formTrabalho">
+                <div class="campo">
+                    <label for="inputTipoTrabalho">Tipo de trabalho</label>
+                    <select id="inputTipoTrabalho">
+                        <option value="individual">Individual (1 aluno)</option>
+                        <option value="grupo">Grupo</option>
+                    </select>
+                </div>
+
+                <div class="campo" id="campoEmailAluno">
+                    <label for="inputEmailAluno">E-mail do aluno</label>
+                    <input type="email" id="inputEmailAluno" placeholder="aluno@email.com">
+                    <small>O aluno precisa já ter criado a conta com esse e-mail.</small>
+                </div>
+
+                <div class="campo" id="campoGrupoTrabalho" style="display: none;">
+                    <label for="inputGrupoTrabalho">Grupo</label>
+                    <select id="inputGrupoTrabalho"></select>
+                </div>
+
+                <div class="campo">
+                    <label for="inputTituloTrabalho">Título do trabalho</label>
+                    <input type="text" id="inputTituloTrabalho" placeholder="Ex: Projeto de Sustentabilidade" required>
+                </div>
+
+                <div class="campo-linha">
+                    <div class="campo">
+                        <label for="inputPrazoTrabalho">Prazo</label>
+                        <input type="text" id="inputPrazoTrabalho" placeholder="Ex: 20 de agosto de 2026" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="inputStatusTrabalho">Status</label>
+                        <select id="inputStatusTrabalho">
+                            <option value="pendente">Pendente</option>
+                            <option value="andamento">Em andamento</option>
+                            <option value="entregue">Entregue</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-acoes">
+                    <button type="button" class="btn-secundario" id="btnCancelarTrabalho">Cancelar</button>
+                    <button type="submit" class="btn-primario" id="btnSalvarTrabalho">Salvar trabalho</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Abre/fecha a sidebar no celular
         const btnMenu = document.getElementById('btnMenu');
@@ -368,6 +440,7 @@
             doc,
             updateDoc,
             deleteDoc,
+            getDocs,
             serverTimestamp
         } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -811,6 +884,199 @@
             }
         });
 
+// ===================================================
+        // TRABALHOS DOS GRUPOS (novo — tempo real via Firestore)
+        // ===================================================
+
+        function criarCardTrabalhoGrupo(trabalho) {
+            const card = document.createElement('article');
+            card.className = 'grupo-card';
+
+            const statusLabel = {
+                pendente: 'Pendente',
+                andamento: 'Em andamento',
+                entregue: 'Entregue'
+            }[trabalho.status] || trabalho.status;
+
+            card.innerHTML = `
+                <div class="grupo-info">
+                    <h3 class="grupo-titulo">${escaparTexto(trabalho.grupoNome || 'Grupo')} <span class="tipo-tag tipo-grupo">Grupo</span></h3>
+                    <p class="grupo-alunos">📄 ${escaparTexto(trabalho.titulo)} — prazo: ${escaparTexto(trabalho.prazo)}</p>
+                </div>
+                <span class="status status-${trabalho.status}">${statusLabel}</span>
+            `;
+
+            return card;
+        }
+
+        const listaTrabalhosGrupo = document.getElementById('listaTrabalhosGrupo');
+
+        function escutarTrabalhosDeGrupo() {
+            const q = query(collection(db, 'trabalhos'), where('tipo', '==', 'grupo'));
+
+            onSnapshot(q, function (snapshot) {
+                listaTrabalhosGrupo.innerHTML = '';
+
+                if (snapshot.empty) {
+                    listaTrabalhosGrupo.innerHTML = '<p class="carregando">Nenhum trabalho de grupo cadastrado ainda.</p>';
+                    return;
+                }
+
+                snapshot.forEach(function (docSnap) {
+                    listaTrabalhosGrupo.appendChild(criarCardTrabalhoGrupo(docSnap.data()));
+                });
+            }, function (erro) {
+                listaTrabalhosGrupo.innerHTML = '<p class="carregando">Não foi possível carregar os trabalhos de grupo agora.</p>';
+                console.error('Erro ao escutar trabalhos de grupo:', erro);
+            });
+        }
+
+        // ----- Modal de novo trabalho -----
+
+        const modalTrabalho = document.getElementById('modalTrabalho');
+        const btnAbrirModalTrabalho = document.getElementById('btnAbrirModalTrabalho');
+        const btnFecharModalTrabalho = document.getElementById('btnFecharModalTrabalho');
+        const btnCancelarTrabalho = document.getElementById('btnCancelarTrabalho');
+        const formTrabalho = document.getElementById('formTrabalho');
+        const modalTrabalhoErro = document.getElementById('modalTrabalhoErro');
+        const btnSalvarTrabalho = document.getElementById('btnSalvarTrabalho');
+        const inputTipoTrabalho = document.getElementById('inputTipoTrabalho');
+        const campoEmailAluno = document.getElementById('campoEmailAluno');
+        const campoGrupoTrabalho = document.getElementById('campoGrupoTrabalho');
+        const inputGrupoTrabalho = document.getElementById('inputGrupoTrabalho');
+
+        function alternarCamposTrabalho() {
+            const ehGrupo = inputTipoTrabalho.value === 'grupo';
+            campoEmailAluno.style.display = ehGrupo ? 'none' : 'flex';
+            campoGrupoTrabalho.style.display = ehGrupo ? 'flex' : 'none';
+        }
+
+        inputTipoTrabalho.addEventListener('change', alternarCamposTrabalho);
+
+        function popularSelectDeGrupos() {
+            inputGrupoTrabalho.innerHTML = '';
+
+            if (gruposCache.length === 0) {
+                inputGrupoTrabalho.innerHTML = '<option value="">Nenhum grupo cadastrado</option>';
+                return;
+            }
+
+            gruposCache.forEach(function (item) {
+                const opcao = document.createElement('option');
+                opcao.value = item.id;
+                opcao.textContent = item.dados.nome || 'Grupo sem nome';
+                inputGrupoTrabalho.appendChild(opcao);
+            });
+        }
+
+        function abrirModalTrabalho() {
+            modalTrabalhoErro.classList.remove('visivel');
+            modalTrabalhoErro.textContent = '';
+            formTrabalho.reset();
+            inputTipoTrabalho.value = 'individual';
+            alternarCamposTrabalho();
+            popularSelectDeGrupos();
+            modalTrabalho.classList.add('aberto');
+        }
+
+        function fecharModalTrabalho() {
+            modalTrabalho.classList.remove('aberto');
+        }
+
+        btnAbrirModalTrabalho.addEventListener('click', abrirModalTrabalho);
+        btnFecharModalTrabalho.addEventListener('click', fecharModalTrabalho);
+        btnCancelarTrabalho.addEventListener('click', fecharModalTrabalho);
+
+        modalTrabalho.addEventListener('click', function (evento) {
+            if (evento.target === modalTrabalho) {
+                fecharModalTrabalho();
+            }
+        });
+
+        formTrabalho.addEventListener('submit', async function (evento) {
+            evento.preventDefault();
+            modalTrabalhoErro.classList.remove('visivel');
+
+            const tipo = inputTipoTrabalho.value;
+            const titulo = document.getElementById('inputTituloTrabalho').value.trim();
+            const prazo = document.getElementById('inputPrazoTrabalho').value.trim();
+            const status = document.getElementById('inputStatusTrabalho').value;
+
+            if (!titulo) {
+                modalTrabalhoErro.textContent = 'Digite o título do trabalho.';
+                modalTrabalhoErro.classList.add('visivel');
+                return;
+            }
+
+            if (!prazo) {
+                modalTrabalhoErro.textContent = 'Digite o prazo do trabalho.';
+                modalTrabalhoErro.classList.add('visivel');
+                return;
+            }
+
+            btnSalvarTrabalho.disabled = true;
+            btnSalvarTrabalho.textContent = 'Salvando...';
+
+            try {
+                if (tipo === 'individual') {
+                    const email = document.getElementById('inputEmailAluno').value.trim();
+
+                    if (!email) {
+                        throw new Error('Digite o e-mail do aluno.');
+                    }
+
+                    const qAluno = query(collection(db, 'usuarios'), where('email', '==', email));
+                    const snapAluno = await getDocs(qAluno);
+
+                    if (snapAluno.empty) {
+                        throw new Error('Aluno não encontrado. Verifique o e-mail e se ele já criou a conta.');
+                    }
+
+                    const alunoDoc = snapAluno.docs[0];
+
+                    await addDoc(collection(db, 'trabalhos'), {
+                        tipo: 'individual',
+                        titulo: titulo,
+                        prazo: prazo,
+                        status: status,
+                        alunoId: alunoDoc.id,
+                        alunoNome: alunoDoc.data().nome || email,
+                        alunoEmail: email,
+                        professorId: auth.currentUser ? auth.currentUser.uid : null,
+                        criadoEm: serverTimestamp()
+                    });
+                } else {
+                    const grupoId = inputGrupoTrabalho.value;
+
+                    if (!grupoId) {
+                        throw new Error('Selecione um grupo.');
+                    }
+
+                    const grupoSelecionado = gruposCache.find(function (item) { return item.id === grupoId; });
+
+                    await addDoc(collection(db, 'trabalhos'), {
+                        tipo: 'grupo',
+                        titulo: titulo,
+                        prazo: prazo,
+                        status: status,
+                        grupoId: grupoId,
+                        grupoNome: grupoSelecionado ? grupoSelecionado.dados.nome : 'Grupo',
+                        professorId: auth.currentUser ? auth.currentUser.uid : null,
+                        criadoEm: serverTimestamp()
+                    });
+                }
+
+                fecharModalTrabalho();
+            } catch (erro) {
+                modalTrabalhoErro.textContent = erro.message || 'Não foi possível salvar o trabalho. Tente novamente.';
+                modalTrabalhoErro.classList.add('visivel');
+                console.error('Erro ao salvar trabalho:', erro);
+            } finally {
+                btnSalvarTrabalho.disabled = false;
+                btnSalvarTrabalho.textContent = 'Salvar trabalho';
+            }
+        });
+
         // ===================================================
         // AUTENTICAÇÃO
         // ===================================================
@@ -854,6 +1120,8 @@
 
             // Grupos em tempo real
             escutarGrupos();
+            // Trabalhos de grupo em tempo real
+            escutarTrabalhosDeGrupo();
         });
     </script>
 
