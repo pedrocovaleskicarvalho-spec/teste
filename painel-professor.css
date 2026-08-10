@@ -865,3 +865,27 @@ body {
         max-width: 100%;
     }
 }
+
+/* ===== ESTILO PARA SELECTS (Tipo de trabalho e Status) ===== */
+
+.campo-select {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #222;
+    background: #fff;
+    width: 100%;
+    appearance: auto;
+    cursor: pointer;
+}
+
+.campo-select:focus {
+    outline: none;
+    border-color: #6b5353;
+}
+
+.campo-select option {
+    padding: 8px;
+}

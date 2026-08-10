@@ -119,9 +119,6 @@
             <button type="button" class="btn-primario" id="btnAbrirModalTrabalho">
                 <span>+</span> Adicionar trabalho
             </button>
-            <button type="button" class="btn-primario" id="btnAbrirModalGrupo">
-                <span>+</span> Adicionar grupo
-            </button>
         </div>
             </div>
 
@@ -304,64 +301,64 @@
     </div>
 
 <!-- ===== MODAL: ADICIONAR TRABALHO ===== -->
-    <div class="modal-fundo" id="modalTrabalho">
-        <div class="modal-caixa">
-            <div class="modal-cabecalho">
-                <h3>Novo trabalho</h3>
-                <button type="button" class="modal-fechar" id="btnFecharModalTrabalho" aria-label="Fechar">✕</button>
+<div class="modal-fundo" id="modalTrabalho">
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h3>Novo trabalho</h3>
+            <button type="button" class="modal-fechar" id="btnFecharModalTrabalho" aria-label="Fechar">✕</button>
+        </div>
+        <p class="modal-subtexto">Crie um trabalho individual (por e-mail) ou de grupo. Aparece em tempo real no painel do aluno.</p>
+
+        <p class="modal-erro" id="modalTrabalhoErro"></p>
+
+        <form id="formTrabalho">
+            <div class="campo">
+                <label for="inputTipoTrabalho">Tipo de trabalho</label>
+                <select id="inputTipoTrabalho" class="campo-select">
+                    <option value="individual">Individual (1 aluno)</option>
+                    <option value="grupo">Grupo</option>
+                </select>
             </div>
-            <p class="modal-subtexto">Crie um trabalho individual (por e-mail) ou de grupo. Aparece em tempo real no painel do aluno.</p>
 
-            <p class="modal-erro" id="modalTrabalhoErro"></p>
+            <div class="campo" id="campoEmailAluno">
+                <label for="inputEmailAluno">E-mail do aluno</label>
+                <input type="email" id="inputEmailAluno" placeholder="aluno@email.com">
+                <small>O aluno precisa já ter criado a conta com esse e-mail.</small>
+            </div>
 
-            <form id="formTrabalho">
+            <div class="campo" id="campoGrupoTrabalho" style="display: none;">
+                <label for="inputGrupoTrabalho">Grupo</label>
+                <select id="inputGrupoTrabalho" class="campo-select"></select>
+            </div>
+
+            <div class="campo">
+                <label for="inputTituloTrabalho">Título do trabalho</label>
+                <input type="text" id="inputTituloTrabalho" placeholder="Ex: Projeto de Sustentabilidade" required>
+            </div>
+
+            <div class="campo-linha">
                 <div class="campo">
-                    <label for="inputTipoTrabalho">Tipo de trabalho</label>
-                    <select id="inputTipoTrabalho">
-                        <option value="individual">Individual (1 aluno)</option>
-                        <option value="grupo">Grupo</option>
+                    <label for="inputPrazoTrabalho">Prazo</label>
+                    <input type="text" id="inputPrazoTrabalho" placeholder="Ex: 20 de agosto de 2026" required>
+                </div>
+
+                <div class="campo">
+                    <label for="inputStatusTrabalho">Status</label>
+                    <select id="inputStatusTrabalho" class="campo-select">
+                        <option value="pendente">Pendente</option>
+                        <option value="andamento">Em andamento</option>
+                        <option value="entregue">Entregue</option>
                     </select>
                 </div>
+            </div>
 
-                <div class="campo" id="campoEmailAluno">
-                    <label for="inputEmailAluno">E-mail do aluno</label>
-                    <input type="email" id="inputEmailAluno" placeholder="aluno@email.com">
-                    <small>O aluno precisa já ter criado a conta com esse e-mail.</small>
-                </div>
-
-                <div class="campo" id="campoGrupoTrabalho" style="display: none;">
-                    <label for="inputGrupoTrabalho">Grupo</label>
-                    <select id="inputGrupoTrabalho"></select>
-                </div>
-
-                <div class="campo">
-                    <label for="inputTituloTrabalho">Título do trabalho</label>
-                    <input type="text" id="inputTituloTrabalho" placeholder="Ex: Projeto de Sustentabilidade" required>
-                </div>
-
-                <div class="campo-linha">
-                    <div class="campo">
-                        <label for="inputPrazoTrabalho">Prazo</label>
-                        <input type="text" id="inputPrazoTrabalho" placeholder="Ex: 20 de agosto de 2026" required>
-                    </div>
-
-                    <div class="campo">
-                        <label for="inputStatusTrabalho">Status</label>
-                        <select id="inputStatusTrabalho">
-                            <option value="pendente">Pendente</option>
-                            <option value="andamento">Em andamento</option>
-                            <option value="entregue">Entregue</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="modal-acoes">
-                    <button type="button" class="btn-secundario" id="btnCancelarTrabalho">Cancelar</button>
-                    <button type="submit" class="btn-primario" id="btnSalvarTrabalho">Salvar trabalho</button>
-                </div>
-            </form>
-        </div>
+            <div class="modal-acoes">
+                <button type="button" class="btn-secundario" id="btnCancelarTrabalho">Cancelar</button>
+                <button type="submit" class="btn-primario" id="btnSalvarTrabalho">Salvar trabalho</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <script>
         // Abre/fecha a sidebar no celular
