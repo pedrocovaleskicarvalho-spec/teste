@@ -79,8 +79,11 @@
                 </section>
                 
                 <section class="secao-grupos">
-    <div class="secao-cabecalho">
-        <h2 class="secao-titulo">Trabalhos dos Grupos</h2>
+                    <div class="secao-cabecalho">
+                        <h2 class="secao-titulo">Trabalhos dos Grupos</h2>
+                        <button type="button" class="btn-primario" id="btnAbrirModalTrabalho">
+                            <span>+</span> Adicionar trabalho
+                        </button>
                     </div>
 
                     <div class="lista-grupos" id="listaTrabalhosGrupo">
@@ -112,14 +115,18 @@
 
             <!-- ===== VIEW: MEUS GRUPOS ===== -->
             <div class="view" id="view-grupos">
-               <section class="secao-grupos">
-    <div class="secao-cabecalho">
-        <h2 class="secao-titulo">Todos os grupos</h2>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button type="button" class="btn-primario" id="btnAbrirModalTrabalho">
-                <span>+</span> Adicionar trabalho
-            </button>
-        </div>
+                <section class="secao-grupos">
+                    <div class="secao-cabecalho">
+                        <h2 class="secao-titulo">Todos os grupos</h2>
+                        <button type="button" class="btn-primario" id="btnAbrirModalGrupo">
+                            <span>+</span> Adicionar grupo
+                        </button>
+                    </div>
+
+                    <div class="lista-grupos" id="listaGrupos">
+                        <p class="carregando">Carregando grupos...</p>
+                    </div>
+                </section>
             </div>
 
             <!-- ===== VIEW: ORÇAMENTOS DA TURMA ===== -->
