@@ -157,9 +157,17 @@
 
             <!-- ===== VIEW: PRAZOS ===== -->
             <div class="view" id="view-prazos">
-                <section class="categoria">
-                    <h2 class="categoria-titulo">Seus trabalhos por prazo</h2>
-                    <div class="lista-trabalhos" id="listaPrazos">
+                <section class="painel-card">
+                    <h2 class="secao-titulo">Linha do Tempo</h2>
+                    <p class="painel-subtexto">Provas, eventos e entregas de trabalhos, do mais próximo ao mais distante</p>
+
+                    <div class="timeline-legenda">
+                        <span class="timeline-legenda-item"><span class="legenda-bolinha legenda-prova"></span> Prova</span>
+                        <span class="timeline-legenda-item"><span class="legenda-bolinha legenda-evento"></span> Evento</span>
+                        <span class="timeline-legenda-item"><span class="legenda-bolinha legenda-trabalho"></span> Trabalho</span>
+                    </div>
+
+                    <div class="timeline" id="listaPrazos">
                         <p class="carregando">Carregando...</p>
                     </div>
                 </section>
@@ -359,15 +367,68 @@
             atualizarContadores();
         }
 
-        // ===== VIEW: PRAZOS =====
+        // Exemplos de provas/eventos (mock — ainda não existe tela do professor pra cadastrar isso)
+        const EVENTOS_EXEMPLO = [
+            { titulo: 'Prova de Matemática', prazo: '14 de agosto de 2026', tipoEvento: 'prova' },
+            { titulo: 'Feira de Ciências da Escola', prazo: '20 de agosto de 2026', tipoEvento: 'evento' },
+            { titulo: 'Prova de Português', prazo: '25 de agosto de 2026', tipoEvento: 'prova' }
+        ];
+
+        function formatarDataCurta(data) {
+            if (!data) return '--';
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mesesAbrev = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+            return { dia: dia, mes: mesesAbrev[data.getMonth()] };
+        }
+
+        function criarItemTimeline(item) {
+            const el = document.createElement('div');
+            el.className = 'timeline-item';
+
+            const data = parsePrazoPtBr(item.prazo);
+            const dataCurta = formatarDataCurta(data);
+
+            let tipoClasse = 'timeline-tipo-trabalho';
+            let tipoLabel = item.tipo === 'grupo' ? 'Trabalho de Grupo' : 'Trabalho Individual';
+
+            if (item.tipoEvento === 'prova') {
+                tipoClasse = 'timeline-tipo-prova';
+                tipoLabel = 'Prova';
+            } else if (item.tipoEvento === 'evento') {
+                tipoClasse = 'timeline-tipo-evento';
+                tipoLabel = 'Evento';
+            }
+
+            const statusHtml = item.status
+                ? `<span class="status status-${item.status}">${{ pendente: 'Pendente', andamento: 'Em andamento', entregue: 'Entregue' }[item.status] || item.status}</span>`
+                : '';
+
+            el.innerHTML = `
+                <div class="timeline-data">
+                    <span class="timeline-dia">${dataCurta === '--' ? '--' : dataCurta.dia}</span>
+                    <span class="timeline-mes">${dataCurta === '--' ? '' : dataCurta.mes}</span>
+                </div>
+                <div class="timeline-bolinha ${tipoClasse}"></div>
+                <div class="timeline-conteudo">
+                    <span class="timeline-tag ${tipoClasse}">${tipoLabel}</span>
+                    <h3 class="timeline-titulo">${item.titulo}</h3>
+                    <p class="timeline-prazo">${item.prazo}</p>
+                    ${statusHtml}
+                </div>
+            `;
+
+            return el;
+        }
+
+        // ===== VIEW: PRAZOS (linha do tempo) =====
         function renderizarPrazos() {
             const lista = document.getElementById('listaPrazos');
             lista.innerHTML = '';
 
-            const todos = trabalhosIndividuaisCache.concat(trabalhosGrupoCache);
+            const todos = trabalhosIndividuaisCache.concat(trabalhosGrupoCache).concat(EVENTOS_EXEMPLO);
 
             if (todos.length === 0) {
-                lista.innerHTML = '<p class="carregando">Nenhum trabalho encontrado ainda.</p>';
+                lista.innerHTML = '<p class="carregando">Nada por aqui ainda.</p>';
                 return;
             }
 
@@ -380,8 +441,8 @@
                 return dataA - dataB;
             });
 
-            ordenados.forEach(function (trabalho) {
-                lista.appendChild(criarCardTrabalho(trabalho));
+            ordenados.forEach(function (item) {
+                lista.appendChild(criarItemTimeline(item));
             });
         }
 
