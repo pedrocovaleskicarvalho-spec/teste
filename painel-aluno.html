@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Trabalhos - TungProject</title>
     <link rel="stylesheet" href="painel-aluno.css">
 </head>
- 
+
 <body>
- 
+
     <div class="app">
- 
+
         <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-topo">
                 <span class="sidebar-logo">TungProject</span>
             </div>
- 
+
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item ativo">
+                <button type="button" class="nav-item ativo" data-view="inicio">
                     <span class="nav-icon">🏠</span>
                     <span class="nav-texto">Início</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon">📚</span>
-                    <span class="nav-texto">Meus Trabalhos</span>
-                </a>
-                <a href="#" class="nav-item">
+                </button>
+                <button type="button" class="nav-item" data-view="orcamento">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-texto">Orçamento</span>
+                </button>
+                <button type="button" class="nav-item" data-view="prazos">
                     <span class="nav-icon">⏰</span>
                     <span class="nav-texto">Prazos</span>
-                </a>
-                <a href="#" class="nav-item">
+                </button>
+                <button type="button" class="nav-item" data-view="perfil">
                     <span class="nav-icon">👤</span>
                     <span class="nav-texto">Perfil</span>
-                </a>
+                </button>
             </nav>
- 
+
             <div class="sidebar-rodape">
                 <a href="index.html" class="nav-item sair">
                     <span class="nav-icon">←</span>
@@ -44,98 +44,216 @@
                 </a>
             </div>
         </aside>
- 
+
         <!-- ===== CONTEÚDO PRINCIPAL ===== -->
         <div class="conteudo">
- 
+
             <header class="topo">
                 <button class="btn-menu" id="btnMenu" aria-label="Abrir menu">☰</button>
                 <div class="topo-texto">
-                    <h1>Olá, aluno</h1>
-                    <p>Aqui estão os trabalhos do seu grupo</p>
+                    <h1 id="topoTitulo">Olá, aluno</h1>
+                    <p id="topoSubtitulo">Aqui estão os trabalhos do seu grupo</p>
                 </div>
             </header>
- 
-            <!-- ===== CARDS DE RESUMO ===== -->
-            <section class="resumo">
-                <div class="resumo-card">
-                    <span class="resumo-numero" id="numTotal">2</span>
-                    <span class="resumo-label">Total de trabalhos</span>
-                </div>
-                <div class="resumo-card resumo-pendente">
-                    <span class="resumo-numero" id="numPendente">0</span>
-                    <span class="resumo-label">Pendente</span>
-                </div>
-                <div class="resumo-card resumo-andamento">
-                    <span class="resumo-numero" id="numAndamento">1</span>
-                    <span class="resumo-label">Em andamento</span>
-                </div>
-                <div class="resumo-card resumo-entregue">
-                    <span class="resumo-numero" id="numEntregue">1</span>
-                    <span class="resumo-label">Entregue</span>
-                </div>
-            </section>
- 
-            <!-- ===== TRABALHOS POR CATEGORIA ===== -->
- 
-            <section class="categoria">
-                <h2 class="categoria-titulo">
-                    <span class="bolinha bolinha-pendente"></span>
-                    Pendente
-                </h2>
-                <div class="lista-trabalhos" id="listaPendente">
-                    <!-- trabalhos individuais reais entram aqui via Firebase -->
-                </div>
-            </section>
- 
-            <section class="categoria">
-                <h2 class="categoria-titulo">
-                    <span class="bolinha bolinha-andamento"></span>
-                    Em andamento
-                </h2>
-                <div class="lista-trabalhos" id="listaAndamento">
-                    <article class="trabalho-card">
-                        <div class="trabalho-info">
-                            <h3 class="trabalho-titulo">Projeto de Sustentabilidade <span class="tipo-tag tipo-grupo">Grupo</span></h3>
-                            <p class="trabalho-prazo">Prazo: 10 de agosto de 2026</p>
+
+            <!-- ===== VIEW: INÍCIO ===== -->
+            <div class="view ativa" id="view-inicio">
+
+                <section class="resumo">
+                    <div class="resumo-card">
+                        <span class="resumo-numero" id="numTotal">0</span>
+                        <span class="resumo-label">Total de trabalhos</span>
+                    </div>
+                    <div class="resumo-card resumo-pendente">
+                        <span class="resumo-numero" id="numPendente">0</span>
+                        <span class="resumo-label">Pendente</span>
+                    </div>
+                    <div class="resumo-card resumo-andamento">
+                        <span class="resumo-numero" id="numAndamento">0</span>
+                        <span class="resumo-label">Em andamento</span>
+                    </div>
+                    <div class="resumo-card resumo-entregue">
+                        <span class="resumo-numero" id="numEntregue">0</span>
+                        <span class="resumo-label">Entregue</span>
+                    </div>
+                </section>
+
+                <section class="categoria">
+                    <h2 class="categoria-titulo">
+                        <span class="bolinha bolinha-pendente"></span>
+                        Pendente
+                    </h2>
+                    <div class="lista-trabalhos" id="listaPendente">
+                        <!-- trabalhos entram aqui via Firebase -->
+                    </div>
+                </section>
+
+                <section class="categoria">
+                    <h2 class="categoria-titulo">
+                        <span class="bolinha bolinha-andamento"></span>
+                        Em andamento
+                    </h2>
+                    <div class="lista-trabalhos" id="listaAndamento">
+                        <!-- trabalhos entram aqui via Firebase -->
+                    </div>
+                </section>
+
+                <section class="categoria">
+                    <h2 class="categoria-titulo">
+                        <span class="bolinha bolinha-entregue"></span>
+                        Entregue
+                    </h2>
+                    <div class="lista-trabalhos" id="listaEntregue">
+                        <!-- trabalhos entram aqui via Firebase -->
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ===== VIEW: ORÇAMENTO (apenas do próprio grupo) ===== -->
+            <div class="view" id="view-orcamento">
+
+                <section class="resumo">
+                    <div class="stat-card stat-roxo">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="orcFases">0</span>
+                            <span class="stat-icone">📅</span>
                         </div>
-                        <span class="status status-andamento">Em andamento</span>
-                    </article>
-                    <!-- trabalhos individuais reais entram aqui via Firebase -->
-                </div>
-            </section>
- 
-            <section class="categoria">
-                <h2 class="categoria-titulo">
-                    <span class="bolinha bolinha-entregue"></span>
-                    Entregue
-                </h2>
-                <div class="lista-trabalhos" id="listaEntregue">
-                    <article class="trabalho-card">
-                        <div class="trabalho-info">
-                            <h3 class="trabalho-titulo">Apresentação de História <span class="tipo-tag tipo-grupo">Grupo</span></h3>
-                            <p class="trabalho-prazo">Prazo: 6 de agosto de 2026</p>
+                        <span class="stat-label">Fases do Cronograma</span>
+                    </div>
+                    <div class="stat-card stat-roxo">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="orcDuracao">0sem</span>
+                            <span class="stat-icone">⏱️</span>
                         </div>
-                        <span class="status status-entregue">Entregue</span>
-                    </article>
-                    <!-- trabalhos individuais reais entram aqui via Firebase -->
-                </div>
-            </section>
- 
+                        <span class="stat-label">Duração</span>
+                    </div>
+                    <div class="stat-card stat-verde">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="orcOrcamento">R$ 0,00</span>
+                            <span class="stat-icone">💲</span>
+                        </div>
+                        <span class="stat-label">Orçamento Planejado</span>
+                    </div>
+                    <div class="stat-card stat-laranja">
+                        <div class="stat-topo">
+                            <span class="stat-numero" id="orcComprometido">0%</span>
+                            <span class="stat-icone">📈</span>
+                        </div>
+                        <span class="stat-label">Comprometido</span>
+                    </div>
+                </section>
+
+                <section class="painel-card">
+                    <h2 class="secao-titulo">Meu Grupo</h2>
+                    <p class="painel-subtexto">Informações do grupo ao qual você pertence</p>
+
+                    <div id="conteudoMeuGrupo">
+                        <p class="carregando">Carregando informações do grupo...</p>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ===== VIEW: PRAZOS ===== -->
+            <div class="view" id="view-prazos">
+                <section class="categoria">
+                    <h2 class="categoria-titulo">Seus trabalhos por prazo</h2>
+                    <div class="lista-trabalhos" id="listaPrazos">
+                        <p class="carregando">Carregando...</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===== VIEW: PERFIL ===== -->
+            <div class="view" id="view-perfil">
+                <section class="categoria">
+                    <div class="perfil-card">
+                        <div class="perfil-avatar" id="perfilAvatar">A</div>
+
+                        <div class="perfil-campo">
+                            <label>Nome</label>
+                            <span id="perfilNome">Aluno</span>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <label>E-mail</label>
+                            <span id="perfilEmail">—</span>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <label>Grupo</label>
+                            <span id="perfilGrupo">Nenhum</span>
+                        </div>
+
+                        <button type="button" class="perfil-botao">Editar perfil</button>
+                    </div>
+                </section>
+            </div>
+
         </div>
- 
+
     </div>
- 
+
     <script>
         // Abre/fecha a sidebar no celular
         const btnMenu = document.getElementById('btnMenu');
         const sidebar = document.getElementById('sidebar');
- 
+
         btnMenu.addEventListener('click', function () {
             sidebar.classList.toggle('aberta');
         });
+
+        // ===== NAVEGAÇÃO ENTRE ABAS (tudo na mesma página) =====
+        const navItens = document.querySelectorAll('.nav-item[data-view]');
+        const views = document.querySelectorAll('.view');
+        const topoTitulo = document.getElementById('topoTitulo');
+        const topoSubtitulo = document.getElementById('topoSubtitulo');
+
+        const textosPorView = {
+            inicio: {
+                titulo: 'Olá, aluno',
+                subtitulo: 'Aqui estão os trabalhos do seu grupo'
+            },
+            orcamento: {
+                titulo: 'Orçamento',
+                subtitulo: 'Informações de orçamento e cronograma do seu grupo'
+            },
+            prazos: {
+                titulo: 'Prazos',
+                subtitulo: 'Seus trabalhos ordenados pelo prazo mais próximo'
+            },
+            perfil: {
+                titulo: 'Perfil',
+                subtitulo: 'Suas informações pessoais'
+            }
+        };
+
+        function mostrarView(nomeView) {
+            navItens.forEach(function (item) {
+                item.classList.toggle('ativo', item.dataset.view === nomeView);
+            });
+
+            views.forEach(function (view) {
+                view.classList.toggle('ativa', view.id === 'view-' + nomeView);
+            });
+
+            const textos = textosPorView[nomeView];
+            if (textos) {
+                topoTitulo.textContent = textos.titulo;
+                topoSubtitulo.textContent = textos.subtitulo;
+            }
+
+            sidebar.classList.remove('aberta');
+        }
+
+        navItens.forEach(function (item) {
+            item.addEventListener('click', function () {
+                mostrarView(item.dataset.view);
+            });
+        });
     </script>
- 
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -149,7 +267,7 @@
             getDoc,
             getDocs
         } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
- 
+
         const firebaseConfig = {
             apiKey: "AIzaSyAG2pyHoAVcQiWsZIZplQ7k1FYWRisdgLc",
             authDomain: "tungproject-8f6cf.firebaseapp.com",
@@ -158,45 +276,63 @@
             messagingSenderId: "602713548775",
             appId: "1:602713548775:web:3e9addfaff7d31aaa97f42"
         };
- 
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
- 
-        // Contadores base: os 2 trabalhos de grupo fixos (exemplo de demonstração)
-        const BASE_TOTAL = 2;
-        const BASE_ANDAMENTO = 1;
-        const BASE_ENTREGUE = 1;
-        const BASE_PENDENTE = 0;
- 
+
         function criarCardTrabalho(trabalho) {
             const card = document.createElement('article');
             card.className = 'trabalho-card';
- 
+
             const statusLabel = {
                 pendente: 'Pendente',
                 andamento: 'Em andamento',
                 entregue: 'Entregue'
             }[trabalho.status] || trabalho.status;
- 
+
+            const tipoLabel = trabalho.tipo === 'grupo' ? 'Grupo' : 'Individual';
+            const tipoClasse = trabalho.tipo === 'grupo' ? 'tipo-grupo' : 'tipo-individual';
+
             card.innerHTML = `
                 <div class="trabalho-info">
-                    <h3 class="trabalho-titulo">${trabalho.titulo} <span class="tipo-tag tipo-individual">Individual</span></h3>
+                    <h3 class="trabalho-titulo">${trabalho.titulo} <span class="tipo-tag ${tipoClasse}">${tipoLabel}</span></h3>
                     <p class="trabalho-prazo">Prazo: ${trabalho.prazo}</p>
                 </div>
                 <span class="status status-${trabalho.status}">${statusLabel}</span>
             `;
- 
+
             return card;
         }
- 
-        let trabalhosGrupoCache = [];
+
+        // Formata número como moeda brasileira
+        function formatarMoeda(valor) {
+            return (Number(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Converte "10 de agosto de 2026" numa Date para poder ordenar por prazo
+        function parsePrazoPtBr(texto) {
+            const meses = {
+                janeiro: 0, fevereiro: 1, março: 2, abril: 3, maio: 4, junho: 5,
+                julho: 6, agosto: 7, setembro: 8, outubro: 9, novembro: 10, dezembro: 11
+            };
+            if (!texto) return null;
+            const match = String(texto).match(/(\d{1,2}) de (\w+) de (\d{4})/i);
+            if (!match) return null;
+            const mes = meses[match[2].toLowerCase()];
+            if (mes === undefined) return null;
+            return new Date(parseInt(match[3], 10), mes, parseInt(match[1], 10));
+        }
+
         let trabalhosIndividuaisCache = [];
+        let trabalhosGrupoCache = [];
+        let meuGrupoAtual = null; // { id, dados } do grupo do aluno (se houver)
 
         function atualizarContadores() {
-            let pendente = BASE_PENDENTE, andamento = BASE_ANDAMENTO, entregue = BASE_ENTREGUE;
+            let pendente = 0, andamento = 0, entregue = 0;
+            const todos = trabalhosIndividuaisCache.concat(trabalhosGrupoCache);
 
-            trabalhosIndividuaisCache.concat(trabalhosGrupoCache).forEach(function (t) {
+            todos.forEach(function (t) {
                 if (t.status === 'pendente') pendente++;
                 else if (t.status === 'andamento') andamento++;
                 else if (t.status === 'entregue') entregue++;
@@ -205,100 +341,165 @@
             document.getElementById('numPendente').textContent = pendente;
             document.getElementById('numAndamento').textContent = andamento;
             document.getElementById('numEntregue').textContent = entregue;
-            document.getElementById('numTotal').textContent =
-                BASE_TOTAL + trabalhosIndividuaisCache.length + trabalhosGrupoCache.length;
+            document.getElementById('numTotal').textContent = todos.length;
         }
- 
-// Descobre a que grupos o aluno pertence (pelo nome salvo em "usuarios")
-        // e escuta em tempo real os trabalhos de grupo desses grupos.
-        async function carregarTrabalhosDeGrupo(uid) {
-            const usuarioSnap = await getDoc(doc(db, 'usuarios', uid));
-            if (!usuarioSnap.exists()) return;
 
-            const meuNome = usuarioSnap.data().nome;
-            if (!meuNome) return;
+        function renderizarListasPorStatus() {
+            ['listaPendente', 'listaAndamento', 'listaEntregue'].forEach(function (id) {
+                document.getElementById(id).innerHTML = '';
+            });
 
-            const qGrupos = query(collection(db, 'grupos'), where('alunos', 'array-contains', meuNome));
-            const gruposSnap = await getDocs(qGrupos);
+            trabalhosIndividuaisCache.concat(trabalhosGrupoCache).forEach(function (trabalho) {
+                const card = criarCardTrabalho(trabalho);
+                if (trabalho.status === 'pendente') document.getElementById('listaPendente').appendChild(card);
+                else if (trabalho.status === 'andamento') document.getElementById('listaAndamento').appendChild(card);
+                else if (trabalho.status === 'entregue') document.getElementById('listaEntregue').appendChild(card);
+            });
 
-            const grupoIds = gruposSnap.docs.map(function (d) { return d.id; });
-            if (grupoIds.length === 0) return;
+            atualizarContadores();
+        }
 
-            const qTrabalhosGrupo = query(
-                collection(db, 'trabalhos'),
-                where('tipo', '==', 'grupo'),
-                where('grupoId', 'in', grupoIds.slice(0, 10))
-            );
+        // ===== VIEW: PRAZOS =====
+        function renderizarPrazos() {
+            const lista = document.getElementById('listaPrazos');
+            lista.innerHTML = '';
 
-            onSnapshot(qTrabalhosGrupo, function (snapshot) {
-                document.querySelectorAll('.trabalho-card[data-grupo="true"]').forEach(function (el) {
-                    el.remove();
-                });
+            const todos = trabalhosIndividuaisCache.concat(trabalhosGrupoCache);
 
-                trabalhosGrupoCache = [];
+            if (todos.length === 0) {
+                lista.innerHTML = '<p class="carregando">Nenhum trabalho encontrado ainda.</p>';
+                return;
+            }
 
-                snapshot.forEach(function (docSnap) {
-                    const trabalho = docSnap.data();
-                    trabalhosGrupoCache.push(trabalho);
+            const ordenados = todos.slice().sort(function (a, b) {
+                const dataA = parsePrazoPtBr(a.prazo);
+                const dataB = parsePrazoPtBr(b.prazo);
+                if (!dataA && !dataB) return 0;
+                if (!dataA) return 1;
+                if (!dataB) return -1;
+                return dataA - dataB;
+            });
 
-                    const card = criarCardTrabalho(trabalho);
-                    card.setAttribute('data-grupo', 'true');
-
-                    const tag = card.querySelector('.tipo-tag');
-                    tag.textContent = 'Grupo';
-                    tag.classList.remove('tipo-individual');
-                    tag.classList.add('tipo-grupo');
-
-                    if (trabalho.status === 'pendente') document.getElementById('listaPendente').appendChild(card);
-                    else if (trabalho.status === 'andamento') document.getElementById('listaAndamento').appendChild(card);
-                    else if (trabalho.status === 'entregue') document.getElementById('listaEntregue').appendChild(card);
-                });
-
-                atualizarContadores();
+            ordenados.forEach(function (trabalho) {
+                lista.appendChild(criarCardTrabalho(trabalho));
             });
         }
 
-        onAuthStateChanged(auth, function (user) {
+        // ===== VIEW: ORÇAMENTO (do próprio grupo) =====
+        function renderizarOrcamento() {
+            const conteudo = document.getElementById('conteudoMeuGrupo');
+
+            if (!meuGrupoAtual) {
+                document.getElementById('orcFases').textContent = '0';
+                document.getElementById('orcDuracao').textContent = '0sem';
+                document.getElementById('orcOrcamento').textContent = formatarMoeda(0);
+                document.getElementById('orcComprometido').textContent = '0%';
+                conteudo.innerHTML = '<p class="carregando">Você ainda não faz parte de nenhum grupo.</p>';
+                return;
+            }
+
+            const grupo = meuGrupoAtual.dados;
+            const totalTrabalhos = Math.max(1, Number(grupo.trabalhosTotal) || 1);
+            const entregues = Math.min(Math.max(0, Number(grupo.trabalhosEntregues) || 0), totalTrabalhos);
+            const porcentagem = Math.round((entregues / totalTrabalhos) * 100);
+            const alunos = Array.isArray(grupo.alunos) ? grupo.alunos : [];
+
+            document.getElementById('orcFases').textContent = Number(grupo.fases) || 0;
+            document.getElementById('orcDuracao').textContent = (Number(grupo.duracaoSemanas) || 0) + 'sem';
+            document.getElementById('orcOrcamento').textContent = formatarMoeda(grupo.orcamento);
+            document.getElementById('orcComprometido').textContent = porcentagem + '%';
+
+            let barraClasse = '';
+            if (entregues >= totalTrabalhos) barraClasse = 'barra-completa';
+            else if (porcentagem < 40) barraClasse = 'barra-atencao';
+
+            conteudo.innerHTML = `
+                <h3 class="trabalho-titulo" style="margin-bottom:10px;">${grupo.nome || 'Grupo sem nome'}</h3>
+                <p class="grupo-alunos">👥 ${alunos.length} aluno${alunos.length === 1 ? '' : 's'} — ${alunos.join(', ') || 'sem alunos cadastrados'}</p>
+                <div class="barra-progresso">
+                    <div class="barra-preenchida ${barraClasse}" style="width: ${porcentagem}%"></div>
+                </div>
+                <p class="grupo-progresso-texto">${entregues} de ${totalTrabalhos} trabalhos entregues</p>
+            `;
+        }
+
+        // ===== VIEW: PERFIL =====
+        function renderizarPerfilGrupo() {
+            document.getElementById('perfilGrupo').textContent = meuGrupoAtual ? (meuGrupoAtual.dados.nome || 'Grupo sem nome') : 'Nenhum';
+        }
+
+        // Escuta em tempo real o(s) grupo(s) a que o aluno pertence, e os
+        // trabalhos de grupo vinculados a eles — refletindo mudanças do professor na hora.
+        function escutarMeuGrupo(meuNome) {
+            const qGrupos = query(collection(db, 'grupos'), where('alunos', 'array-contains', meuNome));
+
+            onSnapshot(qGrupos, function (snapshot) {
+                if (snapshot.empty) {
+                    meuGrupoAtual = null;
+                    trabalhosGrupoCache = [];
+                    renderizarListasPorStatus();
+                    renderizarPrazos();
+                    renderizarOrcamento();
+                    renderizarPerfilGrupo();
+                    return;
+                }
+
+                // Assume 1 grupo por aluno (o mais comum). Se houver mais de um,
+                // usa o primeiro para a tela de Orçamento/Perfil.
+                const primeiro = snapshot.docs[0];
+                meuGrupoAtual = { id: primeiro.id, dados: primeiro.data() };
+
+                renderizarOrcamento();
+                renderizarPerfilGrupo();
+
+                const grupoIds = snapshot.docs.map(function (d) { return d.id; });
+
+                const qTrabalhosGrupo = query(
+                    collection(db, 'trabalhos'),
+                    where('tipo', '==', 'grupo'),
+                    where('grupoId', 'in', grupoIds.slice(0, 10))
+                );
+
+                onSnapshot(qTrabalhosGrupo, function (snapTrabalhos) {
+                    trabalhosGrupoCache = snapTrabalhos.docs.map(function (d) { return d.data(); });
+                    renderizarListasPorStatus();
+                    renderizarPrazos();
+                });
+            });
+        }
+
+        onAuthStateChanged(auth, async function (user) {
             if (!user) {
-                // Ninguém logado, volta pro login
                 window.location.href = "login.html";
                 return;
             }
- 
-            const q = query(collection(db, "trabalhos"), where("alunoId", "==", user.uid));
-            carregarTrabalhosDeGrupo(user.uid);
- 
-            onSnapshot(q, function (snapshot) {
-                const listaPendente = document.getElementById('listaPendente');
-                const listaAndamento = document.getElementById('listaAndamento');
-                const listaEntregue = document.getElementById('listaEntregue');
- 
-                // Remove só os trabalhos individuais renderizados antes (mantém os de grupo fixos)
-                document.querySelectorAll('.trabalho-card[data-individual="true"]').forEach(function (el) {
-                    el.remove();
-                });
- 
-                const trabalhosIndividuais = [];
- 
-                snapshot.forEach(function (docSnap) {
-                    const trabalho = docSnap.data();
-                    trabalhosIndividuais.push(trabalho);
- 
-                    const card = criarCardTrabalho(trabalho);
-                    card.setAttribute('data-individual', 'true');
- 
-                    if (trabalho.status === 'pendente') listaPendente.appendChild(card);
-                    else if (trabalho.status === 'andamento') listaAndamento.appendChild(card);
-                    else if (trabalho.status === 'entregue') listaEntregue.appendChild(card);
-                });
- 
-                trabalhosIndividuaisCache = trabalhosIndividuais;
-                atualizarContadores();
+
+            // Perfil: nome e e-mail
+            const usuarioSnap = await getDoc(doc(db, 'usuarios', user.uid));
+            const meuNome = usuarioSnap.exists() ? usuarioSnap.data().nome : null;
+
+            document.getElementById('perfilNome').textContent = meuNome || 'Aluno';
+            document.getElementById('perfilEmail').textContent = user.email || '—';
+            document.getElementById('perfilAvatar').textContent = (meuNome || 'A').charAt(0).toUpperCase();
+
+            // Trabalhos individuais (só os do próprio aluno)
+            const qIndividuais = query(collection(db, "trabalhos"), where("alunoId", "==", user.uid));
+
+            onSnapshot(qIndividuais, function (snapshot) {
+                trabalhosIndividuaisCache = snapshot.docs.map(function (d) { return d.data(); });
+                renderizarListasPorStatus();
+                renderizarPrazos();
             });
+
+            // Trabalhos e orçamento do próprio grupo
+            if (meuNome) {
+                escutarMeuGrupo(meuNome);
+            } else {
+                renderizarOrcamento();
+            }
         });
     </script>
- 
+
 </body>
- 
+
 </html>
- 

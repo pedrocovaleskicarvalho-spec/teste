@@ -1,23 +1,22 @@
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
- 
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f6f2ec;
     color: #222;
 }
- 
+
 .app {
     display: flex;
     min-height: 100vh;
 }
- 
+
 /* ===== SIDEBAR ===== */
- 
+
 .sidebar {
     width: 240px;
     background: #6b5353;
@@ -28,7 +27,7 @@ body {
     padding: 25px 18px;
     flex-shrink: 0;
 }
- 
+
 .sidebar-logo {
     font-size: 22px;
     font-weight: bold;
@@ -36,13 +35,13 @@ body {
     margin-bottom: 40px;
     padding-left: 8px;
 }
- 
+
 .sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
- 
+
 .nav-item {
     display: flex;
     align-items: center;
@@ -53,42 +52,48 @@ body {
     text-decoration: none;
     font-size: 15px;
     transition: background 0.15s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
 }
- 
+
 .nav-item:hover {
     background: rgba(255, 255, 255, 0.08);
 }
- 
+
 .nav-item.ativo {
     background: #fff;
     color: #6b5353;
     font-weight: bold;
 }
- 
+
 .nav-icon {
     font-size: 18px;
     width: 22px;
     text-align: center;
 }
- 
+
 .sidebar-rodape .sair {
     color: #f0e6e0;
 }
- 
+
 /* ===== CONTEÚDO PRINCIPAL ===== */
- 
+
 .conteudo {
     flex: 1;
     padding: 35px 45px;
 }
- 
+
 .topo {
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 28px;
 }
- 
+
 .btn-menu {
     display: none;
     background: none;
@@ -97,20 +102,20 @@ body {
     cursor: pointer;
     color: #6b5353;
 }
- 
+
 .topo-texto h1 {
     font-size: 26px;
     color: #333;
     margin-bottom: 4px;
 }
- 
+
 .topo-texto p {
     font-size: 14px;
     color: #777;
 }
- 
+
 /* ===== CARDS DE RESUMO ===== */
- 
+
 .resumo {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -118,7 +123,7 @@ body {
     max-width: 1240px;
     margin-bottom: 22px;
 }
- 
+
 .resumo-card {
     background: #fff;
     border-radius: 14px;
@@ -129,32 +134,32 @@ body {
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
     border-left: 5px solid #6b5353;
 }
- 
+
 .resumo-numero {
     font-size: 28px;
     font-weight: bold;
     color: #333;
 }
- 
+
 .resumo-label {
     font-size: 13px;
     color: #888;
 }
- 
+
 .resumo-pendente {
     border-left-color: #d98a1f;
 }
- 
+
 .resumo-andamento {
     border-left-color: #2554c7;
 }
- 
+
 .resumo-entregue {
     border-left-color: #1f8a3d;
 }
- 
+
 /* ===== PRÓXIMO PRAZO ===== */
- 
+
 .proximo-prazo {
     display: flex;
     align-items: center;
@@ -167,18 +172,18 @@ body {
     margin-bottom: 32px;
     font-size: 14px;
 }
- 
+
 .proximo-prazo-icone {
     font-size: 18px;
 }
- 
+
 /* ===== CATEGORIAS ===== */
- 
+
 .categoria {
     max-width: 1240px;
     margin-bottom: 28px;
 }
- 
+
 .categoria-titulo {
     display: flex;
     align-items: center;
@@ -187,34 +192,34 @@ body {
     color: #444;
     margin-bottom: 14px;
 }
- 
+
 .bolinha {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     display: inline-block;
 }
- 
+
 .bolinha-pendente {
     background: #d98a1f;
 }
- 
+
 .bolinha-andamento {
     background: #2554c7;
 }
- 
+
 .bolinha-entregue {
     background: #1f8a3d;
 }
- 
+
 /* ===== LISTA DE TRABALHOS ===== */
- 
+
 .lista-trabalhos {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
- 
+
 .trabalho-card {
     background: #fff;
     border-radius: 14px;
@@ -224,13 +229,13 @@ body {
     justify-content: space-between;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
- 
+
 .trabalho-titulo {
     font-size: 17px;
     color: #222;
     margin-bottom: 4px;
 }
- 
+
 .tipo-tag {
     font-size: 11px;
     font-weight: bold;
@@ -239,22 +244,22 @@ body {
     margin-left: 8px;
     vertical-align: middle;
 }
- 
+
 .tipo-individual {
     background: #ece4f7;
     color: #6a3fb5;
 }
- 
+
 .tipo-grupo {
     background: #e4f1ec;
     color: #227a5b;
 }
- 
+
 .trabalho-prazo {
     font-size: 13px;
     color: #888;
 }
- 
+
 .status {
     font-size: 13px;
     font-weight: bold;
@@ -262,24 +267,24 @@ body {
     border-radius: 20px;
     white-space: nowrap;
 }
- 
+
 .status-pendente {
     background: #fdecd2;
     color: #a9660b;
 }
- 
+
 .status-andamento {
     background: #dde7fb;
     color: #2554c7;
 }
- 
+
 .status-entregue {
     background: #dcf5e3;
     color: #1f8a3d;
 }
- 
+
 /* ===== RESPONSIVO (celular) ===== */
- 
+
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
@@ -289,27 +294,207 @@ body {
         z-index: 10;
         transition: left 0.25s ease;
     }
- 
+
     .sidebar.aberta {
         left: 0;
     }
- 
+
     .btn-menu {
         display: block;
     }
- 
+
     .conteudo {
         padding: 22px;
     }
- 
+
     .resumo {
         grid-template-columns: repeat(2, 1fr);
     }
- 
+
     .trabalho-card {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
 }
- 
+
+/* ===== VIEWS (troca de aba via JS) ===== */
+
+.view {
+    display: none;
+}
+
+.view.ativa {
+    display: block;
+}
+
+.carregando {
+    font-size: 14px;
+    color: #999;
+    padding: 10px 0;
+}
+
+.grupo-alunos {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 12px;
+}
+
+.barra-progresso {
+    width: 100%;
+    max-width: 320px;
+    height: 8px;
+    background: #eee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.barra-preenchida {
+    height: 100%;
+    background: #2554c7;
+    border-radius: 20px;
+    transition: width 0.25s ease;
+}
+
+.barra-atencao {
+    background: #d98a1f;
+}
+
+.barra-completa {
+    background: #1f8a3d;
+}
+
+.grupo-progresso-texto {
+    font-size: 12px;
+    color: #999;
+}
+
+/* ===== ORÇAMENTO (cards de estatística, estilo igual ao do professor) ===== */
+
+.stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.stat-numero {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stat-icone {
+    font-size: 18px;
+    opacity: 0.85;
+}
+
+.stat-label {
+    font-size: 13px;
+}
+
+.stat-roxo {
+    background: #ece4f7;
+    color: #6a3fb5;
+}
+
+.stat-verde {
+    background: #dcf5e3;
+    color: #1f8a3d;
+}
+
+.stat-laranja {
+    background: #fdecd2;
+    color: #a9660b;
+}
+
+.painel-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 26px;
+    max-width: 1000px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+}
+
+.painel-subtexto {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+/* ===== PERFIL ===== */
+
+.perfil-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 30px;
+    max-width: 480px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.perfil-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #6b5353;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.perfil-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.perfil-campo label {
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.perfil-campo span {
+    font-size: 15px;
+    color: #333;
+}
+
+.perfil-botao {
+    align-self: flex-start;
+    background: #6b5353;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.perfil-botao:hover {
+    background: #5a4545;
+}
+
+@media (max-width: 768px) {
+    .perfil-card {
+        max-width: 100%;
+    }
+}
